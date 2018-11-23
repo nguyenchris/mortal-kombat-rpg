@@ -1,27 +1,36 @@
 * {
-  background: rgb(12, 12, 12);
   color: rgb(175, 175, 175);
   font-family: mortalKombat;
 }
 
-.splash {
-  margin: 130px auto 0 auto;
+html body {
+ height: 100%;
+ background: rgb(12, 12, 12);
 }
 
-#splash-img {
+.splash {
+  margin: 130px auto 0 auto;
+  display: none;
+}
+
+.splash-img {
   height: 500px;
   margin: 0 auto;
   display: block;
   position: relative;
-  
+  animation-duration: 4s;
+  animation-delay: .5s;
 }
 
 .splash-btn {
   display: block;
   letter-spacing: 5px;
   margin: 0 auto;
-  width: 85px;
-  padding-left: 17px;
+  font-size: 14px;
+  height: 35px;
+  width: 80px;
+  cursor: pointer;
+  padding-left: 13px;
   color: rgb(12, 12, 12);
   filter: drop-shadow(0px 12px 10px #700E0B);
   border: none;
@@ -31,11 +40,48 @@
   border-radius: 10px;
   transition: ease-in-out .6s;
   animation-duration: 2s;
-  animation-delay: .5s;
+  animation-delay: .9s;
 }
 
 .splash-btn:hover {
   background: #700E0B;
+}
+
+.game-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: none;
+  background-image: url('../images/background.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.playerMenu {
+  text-align: center;
+  margin-top: 75px;
+  background: white;
+  height: 285px;
+}
+
+
+.playerChar {
+  height: 270px;
+  display: inline-block;
+  background: black;
+  width: 230px;
+  margin: 0;
+  position: relative;
+}
+
+.playerChar img {
+  height: 180px;
+  position: relative;
+  padding-top: 30px;
 }
 
 
@@ -49,7 +95,6 @@
   transform: scaleX(-1);
   height: 300px; 
 } 
-
 
 @font-face {
   font-family: mortalKombat;

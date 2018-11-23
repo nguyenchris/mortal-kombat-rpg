@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!-- saved from url=(0094)https://mdn.mozillademos.org/en-US/docs/Web/CSS/filter$samples/invert_example?revision=1429194 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <link href="./samples.37902ba3b7fe.css" rel="stylesheet" type="text/css">
+        
+        <style type="text/css">
+            html {
+  height:100%;
+}
+body {
+  font: 14px/1.286 "Lucida Grande","Lucida Sans Unicode","DejaVu Sans",Lucida,Arial,Helvetica,sans-serif;
+  color: rgb(51, 51, 51);
+  height:100%;
+  overflow:hidden;
+}
+#img2 {
+  width:100%;
+  height:auto;
+  -moz-filter: invert(100%);
+  -webkit-filter: invert(100%);
+  -ms-filter: invert(100%);
+  filter: invert(100%); }
+table.standard-table {
+  border: 1px solid rgb(187, 187, 187);
+  border-collapse: collapse;
+  border-spacing: 0px;
+  margin: 0px 0px 1.286em;
+  width: 85%;
+  height: 100%;
+}
+table.standard-table th {
+  border: 1px solid rgb(187, 187, 187);
+  padding: 0px 5px;
+  background: none repeat scroll 0% 0% rgb(238, 238, 238);
+  text-align: left;
+  font-weight: bold;
+}
+table.standard-table td {
+  padding: 5px;
+  border: 1px solid rgb(204, 204, 204);
+  text-align: left;
+  vertical-align: top;
+  width:25%;
+  height:auto;
+}
+#img3 {
+  height:100%;
+}
+
+        </style>
+        
+        <title>filter - invert_example - code sample</title>
+    </head>
+    <body class="vsc-initialized">
+        
+            <table class="standard-table">
+  <thead>
+    <tr>
+      <th align="left" scope="col">Original image</th>
+      <th align="left" scope="col">Live example</th>
+      <th align="left" scope="col">SVG Equivalent</th>
+      <th align="left" scope="col">Static example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img alt="Test_Form_7.jpeg" id="img1" class="internal default" src="./Test_Form_7.jpeg" style="width: 100%;"></td>
+      <td><img alt="Test_Form_7.jpg" id="img2" class="internal default" src="./Test_Form_7.jpeg" style="width: 100%;"></td>
+      <td><div class="svg-container"><svg xmlns="http://www.w3.org/2000/svg" id="img3" viewBox="0 0 183 276" color-interpolation-filters="sRGB">
+ <filter id="invert">
+    <fecomponenttransfer>
+        <fefuncr type="table" tableValues="1 0"></fefuncr>
+        <fefuncg type="table" tableValues="1 0"></fefuncg>
+        <fefuncb type="table" tableValues="1 0"></fefuncb>
+    </fecomponenttransfer>
+ </filter>
+ <image xlink:href="/files/3720/Test_Form_7.jpeg" filter="url(#invert)" width="183px" height="276px"></image>
+</svg><div></div></div></td>
+      <td><img alt="Test_Form_7_s.jpg" id="img4" class="internal default" src="./Test_Form_7_s.jpg" style="width: 100%;"></td>
+    </tr>
+  </tbody>
+</table>
+
+        
+        
+    
+</body></html>

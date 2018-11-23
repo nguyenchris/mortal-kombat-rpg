@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!-- saved from url=(0098)https://mdn.mozillademos.org/en-US/docs/Web/CSS/filter$samples/brightness_example?revision=1429194 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <link href="./samples.37902ba3b7fe.css" rel="stylesheet" type="text/css">
+        
+        <style type="text/css">
+            html {
+  height:100%;
+}
+body {
+  font: 14px/1.286 "Lucida Grande","Lucida Sans Unicode","DejaVu Sans",Lucida,Arial,Helvetica,sans-serif;
+  color: rgb(51, 51, 51);
+  height:100%;
+  overflow:hidden;
+}
+#img2 {
+  width:100%;
+  height:auto;
+  -moz-filter:brightness(2);
+  -webkit-filter:brightness(2);
+  -ms-filter:brightness(2);
+  filter:brightness(2); }
+table.standard-table {
+  border: 1px solid rgb(187, 187, 187);
+  border-collapse: collapse;
+  border-spacing: 0px;
+  margin: 0px 0px 1.286em;
+  height:100%;
+  width: 85%;
+}
+table.standard-table th {
+  border: 1px solid rgb(187, 187, 187);
+  padding: 0px 5px;
+  background: none repeat scroll 0% 0% rgb(238, 238, 238);
+  text-align: left;
+  font-weight: bold;
+}
+table.standard-table td {
+  padding: 5px;
+  border: 1px solid rgb(204, 204, 204);
+  text-align: left;
+  vertical-align: top;
+  width:25%;
+  height:auto;
+}
+#img3 {
+  height:100%;
+}
+
+        </style>
+        
+        <title>filter - brightness_example - code sample</title>
+    </head>
+    <body class="vsc-initialized">
+        
+            <table class="standard-table">
+  <thead>
+    <tr>
+      <th align="left" scope="col">Original image</th>
+      <th align="left" scope="col">Live example</th>
+      <th align="left" scope="col">SVG Equivalent</th>
+      <th align="left" scope="col">Static example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img alt="Test_Form.jpg" id="img1" class="internal default" src="./Test_Form.jpg" style="width: 100%;"></td>
+      <td><img alt="Test_Form.jpg" id="img2" class="internal default" src="./Test_Form.jpg" style="width: 100%;"></td>
+      <td><div class="svg-container"><svg xmlns="http://www.w3.org/2000/svg" id="img3" viewBox="0 0 286 217" color-interpolation-filters="sRGB">
+ <filter id="brightness">
+    <fecomponenttransfer>
+        <fefuncr type="linear" slope="2"></fefuncr>
+        <fefuncg type="linear" slope="2"></fefuncg>
+        <fefuncb type="linear" slope="2"></fefuncb>
+    </fecomponenttransfer>
+  </filter>
+  <image xlink:href="/files/3708/Test_Form.jpg" filter="url(#brightness)" width="286px" height="217px"></image>
+</svg><div></div></div></td>
+      <td><img alt="Test_Form_s.jpg" id="img4" class="internal default" src="./Test_Form_s.jpg" style="width: 100%;"></td>
+    </tr>
+  </tbody>
+</table>
+
+        
+        
+    
+</body></html>

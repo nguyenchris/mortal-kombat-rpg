@@ -1,0 +1,58 @@
+* {
+  background: rgb(12, 12, 12);
+  color: rgb(175, 175, 175);
+  font-family: mortalKombat;
+}
+
+.splash {
+  margin: 130px auto 0 auto;
+}
+
+#splash-img {
+  height: 500px;
+  margin: 0 auto;
+  display: block;
+  position: relative;
+  
+}
+
+.splash-btn {
+  display: block;
+  letter-spacing: 5px;
+  margin: 0 auto;
+  width: 85px;
+  padding-left: 17px;
+  color: rgb(12, 12, 12);
+  filter: drop-shadow(0px 12px 10px #700E0B);
+  border: none;
+  background: radial-gradient(ellipse at top, #700E0B, transparent),
+              radial-gradient(ellipse at bottom, #9E8C2C, transparent);
+  font-weight: bold;
+  border-radius: 10px;
+  transition: ease-in-out .6s;
+  animation-duration: 2s;
+  animation-delay: .5s;
+}
+
+.splash-btn:hover {
+  background: #700E0B;
+}
+
+
+.p2 {
+	right:10%; 
+	-webkit-filter: hue-rotate(90deg) contrast(1.1);
+	filter: hue-rotate(90deg) contrast(1.1);
+	-moz-transform: scaleX(-1); 
+	-o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  height: 300px; 
+} 
+
+
+@font-face {
+  font-family: mortalKombat;
+  src: url(MKtitle.ttf);
+  font-weight: normal, bold;
+}

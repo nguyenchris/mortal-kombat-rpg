@@ -1,6 +1,7 @@
 * {
   color: rgb(175, 175, 175);
   font-family: mortalKombat;
+  box-sizing: border-box;
 }
 
 html body {
@@ -32,7 +33,7 @@ html body {
   cursor: pointer;
   padding-left: 13px;
   color: rgb(12, 12, 12);
-  filter: drop-shadow(0px 12px 10px #700E0B);
+  filter: drop-shadow(0px 12px 10px rgb(160, 19, 14));
   border: none;
   background: radial-gradient(ellipse at top, #700E0B, transparent),
               radial-gradient(ellipse at bottom, #9E8C2C, transparent);
@@ -63,37 +64,70 @@ html body {
 
 .playerMenu {
   text-align: center;
-  margin-top: 75px;
-  background: white;
-  height: 285px;
+  margin-top: 45px;
+  /* background: white; */
 }
 
 
 .playerChar {
-  height: 270px;
+  height: 255px;
   display: inline-block;
-  background: black;
-  width: 230px;
+  background: rgba(53, 53, 53, 0.884);
+  border-radius: 25px;
+  width: 200px;
   margin: 0;
   position: relative;
+  letter-spacing: 3px;
+  text-shadow: 4px 5px 1px black;
 }
 
 .playerChar img {
-  height: 180px;
+  height: 165px;
   position: relative;
-  padding-top: 30px;
+  padding-top: 15px;
+  padding-bottom: 10px;
 }
 
+.directions {
+  letter-spacing: 10px;
+  font-weight: bold;
+  font-size: 35px;
+  margin-bottom: 15px;
+  color: rgb(228, 0, 0);
+  text-shadow: 6px 4px 2px black;
+}
 
-.p2 {
-	right:10%; 
-	-webkit-filter: hue-rotate(90deg) contrast(1.1);
-	filter: hue-rotate(90deg) contrast(1.1);
-	-moz-transform: scaleX(-1); 
+.characterName {
+  padding-top: 10px;
+}
+
+#p1 {
+	/* right: 10%;  */
+	/* -webkit-filter: hue-rotate(90deg) contrast(1.1); */
+	/* filter: hue-rotate(90deg) contrast(1.1); */
+	/* -moz-transform: scaleX(-1); 
 	-o-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
+  transform: scaleX(-1); */
+  height: 450px; 
+  position: relative;
+  display: inline-block;
+  float: left;
+  margin-left: 10%;
+} 
+
+#p2 {
+	/* right:10%;  */
+	/* -webkit-filter: hue-rotate(90deg) contrast(1.1); */
+	/* filter: hue-rotate(90deg) contrast(1.1); */
+	/* -moz-transform: scaleX(-1); 
+	-o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1); */
   transform: scaleX(-1);
-  height: 300px; 
+  float: right;
+  height: 450px; 
+  position: relative;
+  display: inline-block;
 } 
 
 @font-face {

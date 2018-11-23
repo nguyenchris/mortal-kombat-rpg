@@ -17,7 +17,7 @@ $(document).ready(function () {
 
 
   //////////// This code will move images 
-  // $("#splash-img").click(function () {
+  // $("#p1").click(function () {
   //     var th = $(this);
   //     if ($(th).css('left') == '5px') {
   //         console.log("ret");
@@ -27,10 +27,32 @@ $(document).ready(function () {
   //     } else {
   //         console.log("sdffsdsff");
   //         $(th).animate({
-  //             "left": "200px"
-  //         }, 3000);
+  //             "left": "80%"
+  //         }, 1000);
+  //         $(th).animate({
+  //           "left": "0px"
+  //       }, 1000);
   //     }
   // });
+
+
+//   $("#p2").click(function () {
+//     var th = $(this);
+//     if ($(th).css('left') == '5px') {
+//         console.log("ret");
+//         $(th).animate({
+//             "left": "300px"
+//         }, 3000);
+//     } else {
+//         console.log("sdffsdsff");
+//         $(th).animate({
+//             "right": "80%"
+//         }, 1000);
+//         $(th).animate({
+//           "right": "0px"
+//       }, 1000);
+//     }
+// });
 
 
 
@@ -90,8 +112,42 @@ $(document).ready(function () {
     $(el).remove();
     // show game page
     $('.game-page').show();
-    
 
-    // $('body').animateCss('zoomIn');
+    $('.playerChar').on('click', function() {
+        var th = $(this)
+      $(th).animateCss('zoomOutLeft', function() {
+        removeInsert(th)
+      })
+    });
   };
+
+
+  function removeInsert(el) {
+    el.remove();
+
+    var newDiv = $('<div class="p1"><img src="assets/images/subzero.gif" id="p1" alt=""></div>')
+    newDiv.animateCss('fadeIn');
+    $('.userArea').append(newDiv);
+
+
+ 
+    $("#p1").click(function () {
+      var th = $(this);
+      if ($(th).css('left') == '5px') {
+          console.log("ret");
+          $(th).animate({
+              "left": "300px"
+          }, 3000);
+      } else {
+          console.log("sdffsdsff");
+          $(th).animate({
+              "left": "80%"
+          }, 1000);
+          $(th).animate({
+            "left": "0px"
+        }, 1000);
+      }
+  });
+  }
+
 });

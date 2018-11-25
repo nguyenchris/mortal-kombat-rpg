@@ -7,7 +7,7 @@ $(document).ready(function () {
   $('.splash').show();
 
   var backgroundSong = new Audio('assets/audio/themesong.mp3');
-  backgroundSong.volume = 0.5;
+  backgroundSong.volume = 0.3;
   backgroundSong.load();
 
   // initalize game object
@@ -88,6 +88,7 @@ $(document).ready(function () {
         this.selectChar();
       } else {
         $('.playerMenu').hide();
+        backgroundSong.pause();
         this.renderCharacterVersus();
       }
     },
@@ -100,6 +101,7 @@ $(document).ready(function () {
       // hover animation effect over character options
       $('.playerChar').mouseenter(function() {
         $(this).animateCss('pulse');
+        $(this).css('animation-duration', '.8s');
         $(this).mouseleave(function() {
           $('.playerChar').removeClass('animated pulse');
         })
@@ -134,13 +136,13 @@ $(document).ready(function () {
       if (player === "user") {
         this.userChar = name;
         this.userCharObj = this.characters[name];
-        this.playAudioName(this.userCharObj.audio[0]);
+        // this.playAudioName(this.userCharObj.audio[0]);
       }
 
       if (player === 'opponent') {
         this.opponentChar = name;
         this.opponentCharObj = this.characters[name];
-        this.playAudioName(this.opponentCharObj.audio[0]);
+        // this.playAudioName(this.opponentCharObj.audio[0]);
       }
     },
 
@@ -151,15 +153,22 @@ $(document).ready(function () {
 
     // play audio of the character's name
     playAudioName: function(name) {
-
-      backgroundSong.pause();
       // var nameAudio = this.characters[name].audio[0];
       var audio = new Audio(name);
       audio.play();
       // backgroundSong.play();
     },
 
+    
+    playAudioFight: function() {
 
+      var audio = new Audio('assets/audio/fight.wav')
+      audio.play();
+    },
+
+
+
+    //  create character versus screen depending on character selections for both user and opponent
     renderCharacterVersus: function() {
       
       var vs = $("<img alt='image' class='versus'>").attr('src', 'assets/images/vs.png')
@@ -168,29 +177,63 @@ $(document).ready(function () {
 
 
       var newImgUser = $("<img alt='image' class='versus'>").attr('src', this.userCharObj.charImg)
-      newImgUser.animateCss('slideInLeft');
-      $('.vsP1').append(newImgUser)
-
-      var newImgOpp = $("<img alt='image' class='versus'>").attr('src', this.opponentCharObj.charImg)
+      newImgUser.animateCss('slideInLeft', function() {
+        var newImgOpp = $("<img alt='image' class='versus'>").attr('src', mortalKombat.opponentCharObj.charImg)
       newImgOpp.animateCss('slideInRight', function() {
         var fight = $("<img alt='image' class='versus'>").attr('src', 'assets/images/fight.png')
         fight.animateCss('zoomIn', function() {
+          // after animation ends for the "fight" logo, render actual character fighter gif
           mortalKombat.renderCharacterFighters();
-        })
+        });
+
+        // display fight logo and play fight audio
         $('.fight').append(fight);
+        mortalKombat.playAudioFight();
       });
       $('.vsP2').append(newImgOpp)
+      mortalKombat.playAudioName(mortalKombat.opponentCharObj.audio[0]);
+      });
+      $('.vsP1').append(newImgUser)
+      this.playAudioName(this.userCharObj.audio[0]);
+
+      // var newImgOpp = $("<img alt='image' class='versus'>").attr('src', this.opponentCharObj.charImg)
+      // newImgOpp.animateCss('slideInRight', function() {
+      //   var fight = $("<img alt='image' class='versus'>").attr('src', 'assets/images/fight.png')
+      //   fight.animateCss('zoomIn', function() {
+      //     // after animation ends for the "fight" logo, render actual character fighter gif
+      //     mortalKombat.renderCharacterFighters();
+      //   });
+
+      //   // display fight logo and play fight audio
+      //   $('.fight').append(fight);
+      //   mortalKombat.playAudioFight();
+      // });
+      // $('.vsP2').append(newImgOpp)
       // newDivUser.append(newDivImgUser)
       // $('.versusScreen').append(newDiv);
     },
 
 
 
+
+    // render the selected user and opponent characters onto screen
+    // also render attack button
     renderCharacterFighters: function() {
       $('.versus').remove();
-      // var newDiv = $('<div class="p1"><img src="assets/images/scorpion.gif" id="p1" alt=""></div>')
-      // newDiv.animateCss('fadeIn');
-      // $('.userArea').append(newDiv);
+
+      var userFighter = $("<img alt='image' id='p1'>").attr('src', this.userCharObj.charGif)
+      userFighter.animateCss('fadeIn');
+      $('.userArea').append(userFighter);
+
+      // create attack button
+      var button = $('<button id="attack">');
+      button.text('Attack');
+      $('.userArea').append(button);
+      $(button).on('click', function() {
+        var th = $('#p1');
+        $(th).animate({"left": "40%"}, 1000);
+        $(th).animate({"left": "0px"}, 1000);
+        });
     }
   }
 
@@ -304,6 +347,25 @@ $(document).ready(function () {
   }
 
 
+//   $("#p1").click(function () {
+//     var th = $(this);
+//     if ($(th).css('left') == '5px') {
+//         console.log("ret");
+//         $(th).animate({
+//             "left": "300px"
+//         }, 3000);
+//     } else {
+//         console.log("sdffsdsff");
+//         $(th).animate({
+//             "left": "80%"
+//         }, 1000);
+//         $(th).animate({
+//           "left": "0px"
+//       }, 1000);
+//     }
+// });
+
+
 
   function hideInsert(el) {
     el.hide();
@@ -314,24 +376,6 @@ $(document).ready(function () {
     // newDiv.animateCss('fadeIn');
     // $('.userArea').append(newDiv);
 
- 
-    $("#p1").click(function () {
-      var th = $(this);
-      if ($(th).css('left') == '5px') {
-          console.log("ret");
-          $(th).animate({
-              "left": "300px"
-          }, 3000);
-      } else {
-          console.log("sdffsdsff");
-          $(th).animate({
-              "left": "80%"
-          }, 1000);
-          $(th).animate({
-            "left": "0px"
-        }, 1000);
-      }
-  });
   }
 
 

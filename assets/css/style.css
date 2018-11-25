@@ -81,7 +81,7 @@ html body {
   letter-spacing: 3px;
   text-shadow: 4px 5px 1px black;
   /* animation-iteration-count: infinite; */
-  animation-duration: 0.7s;
+  animation-duration: 1.3s;
   transition: ease-in-out .5s;
 }
 
@@ -130,7 +130,7 @@ html body {
   left: 25%;
   right: 0;
   margin: 0 auto;
-  animation-duration: 3.5s;
+  animation-duration: 5s;
 }
 
 .vsP2 {
@@ -139,7 +139,10 @@ html body {
   left: 55%;
   right: 0;
   margin: 0 auto;
-  animation-duration: 3.5s;
+}
+
+.vsP1 img, .vsP2 img {
+  animation-duration: 1.1s;
 }
 
 .fight img {
@@ -147,7 +150,15 @@ html body {
   left: 0;
   right: 0;
   margin: 0 auto;
-  animation-duration: 2s;
+  animation-duration: 1.8s;
+}
+
+#attack {
+  position: absolute;
+  top: 800px;
+  left: 0;
+  right: 500px;
+  margin: 0 auto;
 }
 
 #p1 {
@@ -158,11 +169,12 @@ html body {
 	-o-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1); */
-  height: 450px; 
+  margin-top: 25%;
+  height: 380px; 
   position: relative;
   display: inline-block;
   float: left;
-  margin-left: 10%;
+  margin-left: 20%;
 } 
 
 #p2 {

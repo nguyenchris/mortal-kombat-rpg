@@ -75,10 +75,18 @@ html body {
   background: rgba(53, 53, 53, 0.884);
   border-radius: 25px;
   width: 200px;
-  margin: 0;
+  margin-right: 20px;
+  cursor: pointer;
   position: relative;
   letter-spacing: 3px;
   text-shadow: 4px 5px 1px black;
+  /* animation-iteration-count: infinite; */
+  animation-duration: 0.7s;
+  transition: ease-in-out .5s;
+}
+
+.playerChar:hover {
+  filter: brightness(200%);
 }
 
 .playerChar img {
@@ -97,7 +105,7 @@ html body {
   text-shadow: 6px 4px 2px black;
 }
 
-.characterName {
+.character-name {
   padding-top: 10px;
 }
 
@@ -129,6 +137,13 @@ html body {
   position: relative;
   display: inline-block;
 } 
+
+/* 
+.p1Stats {
+  background: red;
+  width: 480px;
+  height: 50px;
+} */
 
 @font-face {
   font-family: mortalKombat;

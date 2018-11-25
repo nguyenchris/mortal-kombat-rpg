@@ -109,6 +109,47 @@ html body {
   padding-top: 10px;
 }
 
+
+.versusScreen img {
+  height: 300px;
+  position: absolute;
+}
+
+.vs img {
+  height: 100px;
+  position: absolute;
+  top: 380px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+.vsP1 {
+  position: absolute;
+  top: 280px;
+  left: 25%;
+  right: 0;
+  margin: 0 auto;
+  animation-duration: 3.5s;
+}
+
+.vsP2 {
+  top: 280px;
+  position: absolute;
+  left: 55%;
+  right: 0;
+  margin: 0 auto;
+  animation-duration: 3.5s;
+}
+
+.fight img {
+  height: 250px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  animation-duration: 2s;
+}
+
 #p1 {
 	/* right: 10%;  */
 	/* -webkit-filter: hue-rotate(90deg) contrast(1.1); */

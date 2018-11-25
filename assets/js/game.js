@@ -8,6 +8,7 @@ $(document).ready(function () {
 
   var backgroundSong = new Audio('assets/audio/themesong.mp3');
   backgroundSong.volume = 0.5;
+  backgroundSong.load();
 
   // initalize game object
   mortalKombat = {
@@ -73,11 +74,12 @@ $(document).ready(function () {
         charDiv.append(charName).append(charImage).append(charHealth);
         charDiv.animateCss('zoomIn');
         $('.playerMenu').append(charDiv);
-
       }
 
       this.selectChar();
     },
+
+
 
     gameStart: function() {
       // Check if usercharacter or opponent has been chosen 
@@ -85,12 +87,12 @@ $(document).ready(function () {
         // if not, select character
         this.selectChar();
       } else {
-        $('.playerMenu').animateCss('bounceOutUp', function() {
-          $(this).hide();
-        });
-        console.log('game has started')
+        $('.playerMenu').hide();
+        this.renderCharacterVersus();
       }
     },
+
+
 
     // determines which characters are selected for user and opponent. Whichever is selected will be assigned to the properties userChar and opponent
     selectChar: function() {
@@ -121,26 +123,24 @@ $(document).ready(function () {
           $(th).animateCss('zoomOutRight', function() {
             mortalKombat.removeElement(th);
             mortalKombat.gameStart();
-          });
-
-
+          })
         }
       });
     },
 
+    // update the selected characters for user and opponent and assign to properties
+    // also play sound for selected character
     updateCharacters: function(player, name) {
       if (player === "user") {
         this.userChar = name;
         this.userCharObj = this.characters[name];
         this.playAudioName(this.userCharObj.audio[0]);
-        console.log(this.userCharObj)
       }
 
       if (player === 'opponent') {
         this.opponentChar = name;
         this.opponentCharObj = this.characters[name];
         this.playAudioName(this.opponentCharObj.audio[0]);
-        console.log(this.opponentCharObj);
       }
     },
 
@@ -152,11 +152,45 @@ $(document).ready(function () {
     // play audio of the character's name
     playAudioName: function(name) {
 
-      // backgroundSong.pause();
+      backgroundSong.pause();
       // var nameAudio = this.characters[name].audio[0];
       var audio = new Audio(name);
       audio.play();
       // backgroundSong.play();
+    },
+
+
+    renderCharacterVersus: function() {
+      
+      var vs = $("<img alt='image' class='versus'>").attr('src', 'assets/images/vs.png')
+      vs.animateCss('zoomInDown');
+      $('.vs').append(vs);
+
+
+      var newImgUser = $("<img alt='image' class='versus'>").attr('src', this.userCharObj.charImg)
+      newImgUser.animateCss('slideInLeft');
+      $('.vsP1').append(newImgUser)
+
+      var newImgOpp = $("<img alt='image' class='versus'>").attr('src', this.opponentCharObj.charImg)
+      newImgOpp.animateCss('slideInRight', function() {
+        var fight = $("<img alt='image' class='versus'>").attr('src', 'assets/images/fight.png')
+        fight.animateCss('zoomIn', function() {
+          mortalKombat.renderCharacterFighters();
+        })
+        $('.fight').append(fight);
+      });
+      $('.vsP2').append(newImgOpp)
+      // newDivUser.append(newDivImgUser)
+      // $('.versusScreen').append(newDiv);
+    },
+
+
+
+    renderCharacterFighters: function() {
+      $('.versus').remove();
+      // var newDiv = $('<div class="p1"><img src="assets/images/scorpion.gif" id="p1" alt=""></div>')
+      // newDiv.animateCss('fadeIn');
+      // $('.userArea').append(newDiv);
     }
   }
 

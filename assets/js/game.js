@@ -6,7 +6,8 @@ $(document).ready(function () {
   // show splash page once document is ready
   $('.splash').show();
 
-  var userChar2;
+  var backgroundSong = new Audio('assets/audio/themesong.mp3');
+  backgroundSong.volume = 0.5;
 
   // initalize game object
   mortalKombat = {
@@ -17,7 +18,8 @@ $(document).ready(function () {
       attack: 8,
       charImg: "assets/images/subzeroProf.png",
       charGif: "assets/images/subzero.gif",
-      counterAttack: 15
+      counterAttack: 15,
+      audio: ['assets/audio/subzero.wav', 'assets/audio/subzeroWins.wav']
       },
       scorpion: {
         name: "Scorpion",
@@ -25,7 +27,8 @@ $(document).ready(function () {
         attack: 14,
         charImg: "assets/images/scorpionProf.png",
         charGif: "assets/images/scorpion.gif",
-        counterAttack: 5
+        counterAttack: 5,
+        audio: ['assets/audio/scorpion.wav', 'assets/audio/scorpionWins.wav']
       },
       johnnyCage: {
         name: "Johnny Cage",
@@ -33,7 +36,8 @@ $(document).ready(function () {
         attack: 8,
         charImg: "assets/images/johnnycageProf.png",
         charGif: "assets/images/johnnycage.gif",
-        counterAttack: 20
+        counterAttack: 20,
+        audio: ['assets/audio/johnnycage.wav', 'assets/audio/johnnycageWins.wav']
       },
       raiden: {
         name: "Raiden",
@@ -41,14 +45,17 @@ $(document).ready(function () {
         attack: 7,
         charImg: "assets/images/raidenProf.png",
         charGif: "assets/images/raiden.gif",
-        counterAttack: 25
+        counterAttack: 25,
+        audio: ['assets/audio/raiden.wav', 'assets/audio/raidenWins.wav']
       }
     },
 
     userChar: '',
+    userCharObj: {},
     opponentsArr: [],
     charactersObj: [],
-    opponent: '',
+    opponentChar: '',
+    opponentCharObj: {},
     turnCounter: 1,
     killCounter: 0,
 
@@ -66,49 +73,90 @@ $(document).ready(function () {
         charDiv.append(charName).append(charImage).append(charHealth);
         charDiv.animateCss('zoomIn');
         $('.playerMenu').append(charDiv);
+
       }
 
       this.selectChar();
     },
 
     gameStart: function() {
-
-
-      //animation effect when selecting a character
-      // $('.playerChar').on('click', function() {
-      //   var th = $(this)
-      //   $(th).css('animation-iteration-count', 'initial');
-      //   $(th).animateCss('zoomOutLeft', function() {
-      //     removeInsert(th)
-      //   })
-      // });
+      // Check if usercharacter or opponent has been chosen 
+      if (this.userChar.length === 0 || this.opponentChar.length === 0) {
+        // if not, select character
+        this.selectChar();
+      } else {
+        $('.playerMenu').animateCss('bounceOutUp', function() {
+          $(this).hide();
+        });
+        console.log('game has started')
+      }
     },
 
     // determines which characters are selected for user and opponent. Whichever is selected will be assigned to the properties userChar and opponent
     selectChar: function() {
 
+      // hover animation effect over character options
+      $('.playerChar').mouseenter(function() {
+        $(this).animateCss('pulse');
+        $(this).mouseleave(function() {
+          $('.playerChar').removeClass('animated pulse');
+        })
+      })
+
       $('.playerChar').on('click', function() {
         var th = $(this);
-        // $(th).animateCss('zoomOutLeft', function() {
-        //   mortalKombat.hideElement(th);
-        // })
 
       // if there is not a character selected for the user..
-      if (mortalKombat.userChar.length === 0) {
-          mortalKombat.userChar = th.attr('data-name');
-          console.log(mortalKombat.userChar);
-          // $(th).animateCss('zoomOutLeft', function() {
-          //   mortalKombat.hideElement(th);
-          // })
-      } else {
-        console.log('userChar has been set');
+        if (mortalKombat.userChar.length === 0) {
+          mortalKombat.updateCharacters('user', th.attr('data-name'));
+
+          $(th).animateCss('zoomOutLeft', function() {
+            mortalKombat.removeElement(th);
+            $('.directions').text('Select your Opponent');
+          });
+
+        } else {
+          mortalKombat.updateCharacters('opponent', th.attr('data-name'));
+
+          $(th).animateCss('zoomOutRight', function() {
+            mortalKombat.removeElement(th);
+            mortalKombat.gameStart();
+          });
+
+
+        }
+      });
+    },
+
+    updateCharacters: function(player, name) {
+      if (player === "user") {
+        this.userChar = name;
+        this.userCharObj = this.characters[name];
+        this.playAudioName(this.userCharObj.audio[0]);
+        console.log(this.userCharObj)
       }
-    });
+
+      if (player === 'opponent') {
+        this.opponentChar = name;
+        this.opponentCharObj = this.characters[name];
+        this.playAudioName(this.opponentCharObj.audio[0]);
+        console.log(this.opponentCharObj);
+      }
     },
 
 
-    hideElement: function(el) {
-      el.hide();
+    removeElement: function(el) {
+      el.remove();
+    },
+
+    // play audio of the character's name
+    playAudioName: function(name) {
+
+      // backgroundSong.pause();
+      // var nameAudio = this.characters[name].audio[0];
+      var audio = new Audio(name);
+      audio.play();
+      // backgroundSong.play();
     }
   }
 
@@ -213,6 +261,9 @@ $(document).ready(function () {
     $(el).remove();
     // show game page
     $('.game-page').show();
+    
+    backgroundSong.play();
+
 
     mortalKombat.initializeCharacters();
 
@@ -249,14 +300,5 @@ $(document).ready(function () {
   });
   }
 
-
-
-    // animation effect when hovering mouse above character selection
-    $('.playerChar').mouseenter(function() {
-        (this).animateCss('pulse');
-      $(this).mouseleave(function() {
-        $('.playerChar').removeClass('animated pulse');
-      })
-    })
 
 });

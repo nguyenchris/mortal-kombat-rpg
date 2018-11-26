@@ -70,7 +70,7 @@ html body {
 
 
 .playerChar {
-  height: 255px;
+  height: 235px;
   display: inline-block;
   background: rgba(53, 53, 53, 0.884);
   border-radius: 25px;
@@ -109,6 +109,8 @@ html body {
   padding-top: 10px;
 }
 
+/* Versus Screen */
+
 
 .versusScreen img {
   height: 300px;
@@ -136,7 +138,7 @@ html body {
 .vsP2 {
   top: 280px;
   position: absolute;
-  left: 55%;
+  left: 58%;
   right: 0;
   margin: 0 auto;
 }
@@ -153,6 +155,8 @@ html body {
   animation-duration: 1.8s;
 }
 
+/* Stats bar */
+
 #logo {
   position: relative;
 }
@@ -165,31 +169,41 @@ html body {
   margin: 0 auto;
   height: 100px;
   opacity: 0.85;
+  animation-duration: 1.5s;
 }
 
-.userStats .oppStats {
+.userStats .opponentStats {
   position: relative;
 }
 
+
+/* Health Bar */
+
 .healthBar {
-  border-radius: 10px 40px 40px 10px;
   position: absolute;
   width: 550px;
   background-color: rgb(160, 15, 15);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.9) inset;
-  opacity: 0.9;
+  opacity: 0.95;
+  animation-duration: 1.5s;
 }
 
 .userHealthBar {
   left: 100px;
   top: 120px;
+  border-radius: 10px 40px 40px 10px;
 }
+
+
+/* user stats */
 
 #userName {
   position: absolute;
   font-size: 22px;
   left: 100px;
   top: 155px;
+  letter-spacing: 2px;
+  text-shadow: 4px 5px 1px black;
 }
 
 #userCharName {
@@ -197,6 +211,7 @@ html body {
   font-size: 22px;
   left: 100px;
   top: 90px;
+  text-shadow: 4px 5px 1px black;
 }
 
 #userHealth{
@@ -210,6 +225,44 @@ html body {
   border-radius: 10px 40px 40px 10px;
 }
 
+
+/* opponent stats */
+
+.opponentHealthBar {
+  right: 100px;
+  top: 120px;
+  border-radius: 40px 10px 10px 40px;
+}
+
+#opponentName {
+  position: absolute;
+  font-size: 22px;
+  right: 100px;
+  top: 155px;
+  letter-spacing: 1.5px;
+  text-shadow: 4px 5px 1px black;
+}
+
+#opponentCharName {
+  position: absolute;
+  font-size: 22px;
+  right: 100px;
+  top: 90px;
+  text-shadow: 4px 5px 1px black;
+}
+
+#opponentHealth{
+  width: 100%;
+  height: 30px;
+  background-color: rgb(71, 148, 74);
+  text-align: center;
+  float: right;
+  line-height: 30px;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .8) inset;
+  border-radius: 40px 10px 10px 40px;
+}
+
 #attack {
   position: absolute;
   top: 800px;
@@ -217,6 +270,9 @@ html body {
   right: 500px;
   margin: 0 auto;
 }
+
+
+/* Fighter Gifs */
 
 #p1 {
 	/* right: 10%;  */

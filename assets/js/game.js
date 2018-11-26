@@ -190,8 +190,8 @@ $(document).ready(function() {
             "assets/images/fight.png"
           );
           fight.animateCss("zoomIn", function() {
-            // after animation ends for the "fight" logo, render actual character fighter gif
-            mortalKombat.renderCharacterFighters();
+            // after animation ends for the "fight" logo, render stats bar
+            mortalKombat.renderStats();
           });
 
           // display fight logo and play fight audio
@@ -224,7 +224,6 @@ $(document).ready(function() {
     // render the selected user and opponent characters onto screen
     // also render attack button
     renderCharacterFighters: function() {
-      $(".versus").remove();
 
       // display user selecter fighter
       var userFighter = $("<img alt='image' id='p1'>").attr("src", this.userCharObj.charGif);
@@ -249,8 +248,70 @@ $(document).ready(function() {
 
     // render the stats info above fight area to display health bar, logo, name, HP total
     renderStats: function() {
+
+      $(".versus").remove();
+
+
+      //render mortal kombat logo in stats bar
+      var logo = $("<img class='stats' alt='Mortal Kombat Logo'>").attr("src", "assets/images/mortalkombatLogo.png");
+      logo.animateCss("slideInDown");
+      $("#logo").append(logo);
+
+      //render user health bar
+      var userCharName = $("<div class='stats' id='userCharName'>").text(this.userChar);
+      var userName = $("<div class='stats' id='userName'>").text('You');
+      var userHealthBar = $("<div class='healthBar userHealthBar stats'>")
+      var userHealthStat = $("<div class='stats' id='userHealth'>").text(this.userCharObj.health);
+      // append inner health stat bar to entire health bar
+      userHealthBar.append(userHealthStat);
+      userHealthBar.animateCss('fadeInLeft');
+      // append all user stat elements
+      $('.userStats').append(userCharName).append(userName).append(userHealthBar);
+
+
+      // render opponent health bar
+      var opponentCharName = $("<div class='stats' id='opponentCharName'>").text(this.opponentChar);
+      var opponentName = $("<div class='stats' id='opponentName'>").text('Opponent');
+      var opponentHealthBar = $("<div class='healthBar opponentHealthBar stats'>")
+      var opponentHealthStat = $("<div class='stats' id='opponentHealth'>").text(this.opponentCharObj.health);
+      // append inner health stat bar to entire health bar
+      opponentHealthBar.append(opponentHealthStat);
+      opponentHealthBar.animateCss('fadeInRight', function() {
+        mortalKombat.renderCharacterFighters();
+      })
+      // append all opponent stat elements
+      $('.opponentStats').append(opponentCharName).append(opponentName).append(opponentHealthBar);
+
+
+      // render character fighters
       
+    },
+
+
+
+
+
+    // will update page to show HP and render health bar to reflect HP
+    updateStats: function() {
+
+
+    //   var elem = $()  
+    //   var width = 100;
+    //   var id = setInterval(frame, 300);
+    //   function frame() {
+    //     // if width of inner health bar reaches the the amount of current HP in percentage
+    //     if (width === 50) {
+    //       // stop interval of decreasing width of inner health bar
+    //       clearInterval(id);
+    //       elem.style.width = 50 + '%';
+    //     } else {
+    //       width --; 
+    //       elem.style.width = width + '%'; 
+    //       elem.innerHTML = width * 1  + '%';
+    //     }
+    //   }
     }
+    
   };
 
   //////////// This code will move images

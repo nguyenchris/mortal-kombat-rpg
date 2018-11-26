@@ -6,7 +6,7 @@ $(document).ready(function() {
 
   // begin loading background music to prevent delay in playing;
   var backgroundSong = new Audio("assets/audio/themesong.mp3");
-  backgroundSong.volume = 0.2;
+  backgroundSong.volume = 0.7;
   backgroundSong.preload = "auto";
 
   // initalize game object
@@ -241,7 +241,10 @@ $(document).ready(function() {
       $(".userArea").append(button);
       $(button).on("click", function() {
         var th = $("#p1");
-        $(th).animate({ left: "40%" }, 1000);
+        $(th).animate({ left: "40%" }, 1000, function() {
+          var audio = new Audio("assets/audio/mk2-100.wav");
+          audio.play();
+        });
         $(th).animate({ left: "0px" }, 1000);
       });
     },
@@ -294,6 +297,8 @@ $(document).ready(function() {
     // will update page to show HP and render health bar to reflect HP
     updateStats: function() {
 
+
+      // function to move health bar depending on damage inflicted
 
     //   var elem = $()  
     //   var width = 100;

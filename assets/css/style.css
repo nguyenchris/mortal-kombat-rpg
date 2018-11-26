@@ -153,6 +153,63 @@ html body {
   animation-duration: 1.8s;
 }
 
+#logo {
+  position: relative;
+}
+
+#logo img {
+  position: absolute;
+  top: 85px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  height: 100px;
+  opacity: 0.85;
+}
+
+.userStats .oppStats {
+  position: relative;
+}
+
+.healthBar {
+  border-radius: 10px 40px 40px 10px;
+  position: absolute;
+  width: 550px;
+  background-color: rgb(160, 15, 15);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.9) inset;
+  opacity: 0.9;
+}
+
+.userHealthBar {
+  left: 100px;
+  top: 120px;
+}
+
+#userName {
+  position: absolute;
+  font-size: 22px;
+  left: 100px;
+  top: 155px;
+}
+
+#userCharName {
+  position: absolute;
+  font-size: 22px;
+  left: 100px;
+  top: 90px;
+}
+
+#userHealth{
+  width: 50%;
+  height: 30px;
+  background-color: rgb(71, 148, 74);
+  text-align: center;
+  line-height: 30px;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .8) inset;
+  border-radius: 10px 40px 40px 10px;
+}
+
 #attack {
   position: absolute;
   top: 800px;
@@ -184,11 +241,13 @@ html body {
 	/* -moz-transform: scaleX(-1); 
 	-o-transform: scaleX(-1);
   -webkit-transform: scaleX(-1); */
+  margin-top: 25%;
   transform: scaleX(-1);
+  height: 380px; 
   float: right;
-  height: 450px; 
   position: relative;
   display: inline-block;
+  margin-right: 20%;
 } 
 
 /* 

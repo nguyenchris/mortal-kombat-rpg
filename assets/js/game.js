@@ -6,7 +6,7 @@ $(document).ready(function() {
 
   // begin loading background music to prevent delay in playing;
   var backgroundSong = new Audio("assets/audio/themesong.mp3");
-  backgroundSong.volume = 0.7;
+  backgroundSong.volume = 0.4;
   backgroundSong.preload = "auto";
 
   // initalize game object
@@ -161,6 +161,7 @@ $(document).ready(function() {
       // backgroundSong.play();
     },
 
+    // player "fight" audio
     playAudioFight: function() {
       var audio = new Audio("assets/audio/fight.wav");
       audio.play();
@@ -235,6 +236,12 @@ $(document).ready(function() {
       opponentFighter.animateCss("fadeIn");
       $(".opponentArea").append(opponentFighter);
 
+      this.renderFightBtn();
+
+    },
+
+    // creates fight button
+    renderFightBtn: function() {
       // create attack button
       var button = $('<button id="attack">');
       button.text("Attack");
@@ -242,12 +249,15 @@ $(document).ready(function() {
       $(button).on("click", function() {
         var th = $("#p1");
         $(th).animate({ left: "40%" }, 1000, function() {
+          // play audio after character hits the other character
           var audio = new Audio("assets/audio/mk2-100.wav");
           audio.play();
         });
         $(th).animate({ left: "0px" }, 1000);
+        mortalKombat.updateStats();
       });
     },
+
 
     // render the stats info above fight area to display health bar, logo, name, HP total
     renderStats: function() {
@@ -261,7 +271,7 @@ $(document).ready(function() {
       $("#logo").append(logo);
 
       //render user health bar
-      var userCharName = $("<div class='stats' id='userCharName'>").text(this.userChar);
+      var userCharName = $("<div class='stats' id='userCharName'>").text(this.userCharObj.name);
       var userName = $("<div class='stats' id='userName'>").text('You');
       var userHealthBar = $("<div class='healthBar userHealthBar stats'>")
       var userHealthStat = $("<div class='stats' id='userHealth'>").text(this.userCharObj.health);
@@ -273,7 +283,7 @@ $(document).ready(function() {
 
 
       // render opponent health bar
-      var opponentCharName = $("<div class='stats' id='opponentCharName'>").text(this.opponentChar);
+      var opponentCharName = $("<div class='stats' id='opponentCharName'>").text(this.opponentCharObj.name);
       var opponentName = $("<div class='stats' id='opponentName'>").text('Opponent');
       var opponentHealthBar = $("<div class='healthBar opponentHealthBar stats'>")
       var opponentHealthStat = $("<div class='stats' id='opponentHealth'>").text(this.opponentCharObj.health);
@@ -300,21 +310,21 @@ $(document).ready(function() {
 
       // function to move health bar depending on damage inflicted
 
-    //   var elem = $()  
-    //   var width = 100;
-    //   var id = setInterval(frame, 300);
-    //   function frame() {
-    //     // if width of inner health bar reaches the the amount of current HP in percentage
-    //     if (width === 50) {
-    //       // stop interval of decreasing width of inner health bar
-    //       clearInterval(id);
-    //       elem.style.width = 50 + '%';
-    //     } else {
-    //       width --; 
-    //       elem.style.width = width + '%'; 
-    //       elem.innerHTML = width * 1  + '%';
-    //     }
-    //   }
+      var elem = $('#userHealth');  
+      var width = 100;
+      var id = setInterval(frame, 500);
+      function frame() {
+        // if width of inner health bar reaches the the amount of current HP in percentage
+        if (width === 75) {
+          // stop interval of decreasing width of inner health bar
+          clearInterval(id);
+          elem.css('width', '75%');
+        } else {
+          width --; 
+          elem.css('width', width); 
+          // elem.innerHTML = mortalKombat.userCharObj.health * 1;
+        }
+      }
     }
     
   };

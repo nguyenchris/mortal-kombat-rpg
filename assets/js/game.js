@@ -63,14 +63,10 @@ $(document).ready(function() {
     opponentCharObj: {},
     turnCounter: 1,
     killCounter: 0,
-    userAttack: null,
-    userHealth: null,
-    oppCounterAttack: null,
-    oppHealth: null,
-    userDamagePercent: null,
-    oppDamagePercent: null,
     userHealthBarWidth: 100,
     oppHealthBarWidth: 100,
+    userAfterWidth: null,
+    oppAfterWidth: null,
 
     // display character area for selection
     initializeCharacters: function() {
@@ -308,64 +304,91 @@ $(document).ready(function() {
 
     startGamePlay: function() {
 
-      var th = $('#p1');
-      var th2 = $('#p2');
-      // this.userAttack = this.userCharObj.attack;
-      // this.userHealth = this.userCharObj.health;
-      // this.oppCounterAttack = this.opponentCharObj.counterttack;
-      // this.oppHealth = this.opponentCharObj.health;
-
       // click event listener for fight button
       $('#attack').on('click', function() {
+        var userAttack = mortalKombat.userCharObj.attack * mortalKombat.turnCounter;
 
-        mortalKombat.userCharObj.attack *= mortalKombat.turnCounter
-        
-        mortalKombat.userCharObj.health -= mortalKombat.opponentCharObj.counterAttack;
-        mortalKombat.opponentCharObj.health -= mortalKombat.userCharObj.attack;
-
+        // calculate percent damage from total health in order to subtract from bar width's percent width
         var userDamage = Math.round(mortalKombat.opponentCharObj.counterAttack / mortalKombat.userCharObj.origHealth * 100)
-        var oppDamage = Math.round(mortalKombat.userCharObj.attack / mortalKombat.opponentCharObj.origHealth * 100)
+        var oppDamage = Math.round(userAttack / mortalKombat.opponentCharObj.origHealth * 100)
 
-        var userAfterWidth = mortalKombat.userHealthBarWidth - userDamage
-        var oppAfterWidth = mortalKombat.oppHealthBarWidth - oppDamage
+        mortalKombat.userAfterWidth = mortalKombat.userHealthBarWidth - userDamage
+        mortalKombat.oppAfterWidth = mortalKombat.oppHealthBarWidth - oppDamage
 
+        // since user attacks first, check if user's attack will be higher than opponent's health
+        if (userAttack >= mortalKombat.opponentCharObj.health) {
 
-        console.log('u damage % taken' + userDamage)
-        console.log('u health width' + mortalKombat.userHealthBarWidth)
-        console.log('u health' + mortalKombat.userCharObj.health)
-        console.log('opp damage % taken' + oppDamage)
-        console.log('opp health width' + mortalKombat.oppHealthBarWidth)
-        console.log('opp health' + mortalKombat.opponentCharObj.health)
-
-        mortalKombat.updateStats('#userHealth', userDamage, mortalKombat.userHealthBarWidth, mortalKombat.userCharObj.health, userAfterWidth);
-        mortalKombat.updateStats('#opponentHealth', oppDamage, mortalKombat.oppHealthBarWidth, mortalKombat.opponentCharObj.health, oppAfterWidth);
-
-        mortalKombat.turnCounter ++;
+          mortalKombat.opponentCharObj.health = 0;
+          // if it is, animate only user fighter and restart game
+          mortalKombat.animateUserFighter(true);
+        } else {
+          mortalKombat.opponentCharObj.health -= userAttack;
         
-        // move user character to hit opponent
-        $(th).animate({ left: '40%' }, 900, function() {
-          // play audio after character hits the other character
-          var audio = new Audio('assets/audio/mk2-100.wav');
-          audio.play();
-          // update healthbar
-          mortalKombat.updateStats();
-        });
+          mortalKombat.userCharObj.health -= mortalKombat.opponentCharObj.counterAttack;
 
-        // move user character back to original position
-        $(th).animate({ left: '0px' }, 900, function() {
-          // after user character returns, move opponent character to hit user character
-          $(th2).animate({ right: '40%' }, 900, function() {
-            var audio = new Audio('assets/audio/mk2-100.wav');
-            audio.play();
-          });
-          // move opponent character back to original position
-          $(th2).animate({ right: '0px' }, 900);
-        });
+          mortalKombat.animateUserFighter(false);
+        }
+
+        mortalKombat.turnCounter++;
+        
+        // // move user character to hit opponent
+        // $(th).animate({ left: '40%' }, 900, function() {
+        //   // play audio after character hits the other character
+        //   var audio = new Audio('assets/audio/mk2-100.wav');
+        //   audio.play();
+        //   // update healthbar
+        // });
+
+        // // move user character back to original position
+        // $(th).animate({ left: '0px' }, 900, function() {
+        //   // after user character returns, move opponent character to hit user character
+        //   $(th2).animate({ right: '40%' }, 900, function() {
+        //     var audio = new Audio('assets/audio/mk2-100.wav');
+        //     audio.play();
+        //   });
+        //   // move opponent character back to original position
+        //   $(th2).animate({ right: '0px' }, 900);
+        // });
       });
     },
 
+    // animate user's fighter and check if user has won. If user has won, the opponent will not move 
+    animateUserFighter: function(check) {
+      var th = $('#p1');
+      $(th).animate({ left: '40%' }, 900, function () {
+        // play audio after character hits the other character
+        var audio = new Audio('assets/audio/mk2-100.wav');
+        audio.play();
+        mortalKombat.updateStats('#opponentHealth', mortalKombat.oppHealthBarWidth, mortalKombat.opponentCharObj.health, mortalKombat.oppAfterWidth);
+      });
+
+      // move user character back to original position
+      $(th).animate({ left: '0px' }, 900, function () {
+        //check if user won
+        if (check) {
+          console.log('You win')
+        // if not, animate opponent fighter
+        } else {
+          mortalKombat.animateOppFighter();
+        }
+      });
+    },
+
+    animateOppFighter: function() {
+      var th2 = $('#p2');
+      // after user character returns, move opponent character to hit user character
+      $(th2).animate({ right: '40%' }, 900, function () {
+        var audio = new Audio('assets/audio/mk2-100.wav');
+        audio.play();
+        mortalKombat.updateStats('#userHealth', mortalKombat.userHealthBarWidth, mortalKombat.userCharObj.health, mortalKombat.userAfterWidth);
+      });
+      // move opponent character back to original position
+      $(th2).animate({ right: '0px' }, 900);
+
+    },
+
     // will update page to show HP and render health bar to reflect HP
-    updateStats: function(selector, damage, barWidth, hP, afterDamageWidth) {
+    updateStats: function(selector, barWidth, hP, afterDamageWidth) {
       var elem = $(selector);
       var id = setInterval(frame, 70);
       // function to move health bar depending on damage inflicted
@@ -385,7 +408,6 @@ $(document).ready(function() {
           barWidth--;
           elem.css('width', barWidth + '%');
           elem.text(hP);
-          // elem.innerHTML = mortalKombat.userCharObj.health * 1;
         }
       }
     }

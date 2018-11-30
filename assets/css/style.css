@@ -27,7 +27,7 @@ html body {
   display: block;
   letter-spacing: 5px;
   margin: 0 auto;
-  font-size: 14px;
+  font-size: 18px;
   height: 35px;
   width: 80px;
   cursor: pointer;
@@ -70,7 +70,7 @@ html body {
 
 
 .playerChar {
-  height: 235px;
+  height: 240px;
   display: inline-block;
   background: rgba(53, 53, 53, 0.884);
   border-radius: 25px;
@@ -79,10 +79,11 @@ html body {
   cursor: pointer;
   position: relative;
   letter-spacing: 3px;
-  text-shadow: 4px 5px 1px black;
+  text-shadow: 3px 4px 1px black;
   /* animation-iteration-count: infinite; */
   animation-duration: 1.3s;
   transition: ease-in-out .5s;
+  font-size: 21px;
 }
 
 .playerChar:hover {
@@ -99,7 +100,7 @@ html body {
 .directions {
   letter-spacing: 10px;
   font-weight: bold;
-  font-size: 35px;
+  font-size: 50px;
   margin-bottom: 15px;
   color: rgb(228, 0, 0);
   text-shadow: 6px 4px 2px black;
@@ -192,6 +193,7 @@ html body {
   left: 100px;
   top: 120px;
   border-radius: 10px 40px 40px 10px;
+  font-size: 20px;
 }
 
 
@@ -199,18 +201,18 @@ html body {
 
 #userName {
   position: absolute;
-  font-size: 22px;
+  font-size: 30px;
   left: 100px;
-  top: 155px;
+  top: 150px;
   letter-spacing: 2px;
   text-shadow: 4px 5px 1px black;
 }
 
 #userCharName {
   position: absolute;
-  font-size: 22px;
+  font-size: 30px;
   left: 100px;
-  top: 90px;
+  top: 85px;
   text-shadow: 4px 5px 1px black;
 }
 
@@ -229,22 +231,23 @@ html body {
   right: 100px;
   top: 120px;
   border-radius: 40px 10px 10px 40px;
+  font-size: 20px;
 }
 
 #opponentName {
   position: absolute;
-  font-size: 22px;
+  font-size: 30px;
   right: 100px;
-  top: 155px;
+  top: 148px;
   letter-spacing: 1.5px;
   text-shadow: 4px 5px 1px black;
 }
 
 #opponentCharName {
   position: absolute;
-  font-size: 22px;
+  font-size: 30px;
   right: 100px;
-  top: 90px;
+  top: 85px;
   text-shadow: 4px 5px 1px black;
 }
 
@@ -258,6 +261,28 @@ html body {
   color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, .8) inset;
   border-radius: 40px 10px 10px 40px;
+}
+
+.damage {
+  font-size: 26px;
+  color: rgb(202, 10, 10);
+  position: absolute;
+  animation-duration: 1.5s;
+}
+
+.damage span {
+  color: rgb(202, 10, 10);
+  font-size: 38px;
+}
+
+#damage-p1 {
+  top: 185px;
+  left: 93px;
+}
+
+#damage-p2 {
+  top: 183px;
+  right: 100px;
 }
 
 #attack {
@@ -317,8 +342,8 @@ html body {
 
 
 
+
 @font-face {
   font-family: mortalKombat;
-  src: url(MKtitle.ttf);
-  font-weight: normal, bold;
+  src: url(MKXTitle.ttf);
 }

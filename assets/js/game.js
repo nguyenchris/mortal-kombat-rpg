@@ -68,30 +68,31 @@ $(document).ready(function() {
     userAfterWidth: null,
     oppAfterWidth: null,
 
+    // insert all characters into opponents Array
+    initializeOpponentsArr: function() {
+      for (var key in this.characters) {
+        this.opponentsArr.push(key);
+      }
+      this.initializeCharacters();
+    },
+
     // display character area for selection
     initializeCharacters: function() {
-      for (var key in this.characters) {
-        var charDiv = $("<div class='playerChar' data-name='" + key + "'>");
-        var charName = $("<div class='character-name'>").text(
-          this.characters[key].name
-        );
-        var charImage = $("<img alt='image'>").attr(
-          'src',
-          this.characters[key].charImg
-        );
-        var charHealth = $("<div class='character-health'>").text(
-          'HP: ' + this.characters[key].health
-        );
 
-        charDiv
-          .append(charName)
-          .append(charImage)
-          .append(charHealth);
-        charDiv.animateCss('zoomIn');
-        $('.playerMenu').append(charDiv);
-      }
+        for (i = 0; i < this.opponentsArr.length; i++) {
+          var charDiv = $("<div class='playerChar' data-name='" + this.opponentsArr[i] + "'>");
+          var charName = $("<div class='character-name'>").text(this.characters[this.opponentsArr[i]].name);
+          var charImage = $("<img alt='image'>").attr('src', this.characters[this.opponentsArr[i]].charImg);
+          var charHealth = $("<div class='character-health'>").text('HP: ' + this.characters[this.opponentsArr[i]].health);
 
-      this.selectChar();
+            charDiv
+            .append(charName)
+            .append(charImage)
+            .append(charHealth);
+          charDiv.animateCss('zoomIn');
+          $('.playerMenu').append(charDiv);
+        }
+        this.selectChar();
     },
 
     gameStart: function() {
@@ -100,7 +101,7 @@ $(document).ready(function() {
         // if not, select character
         this.selectChar();
       } else {
-        $('.playerMenu').hide();
+        $('.playerMenu').empty();
         backgroundSong.pause();
         this.renderCharacterVersus();
       }
@@ -146,12 +147,15 @@ $(document).ready(function() {
     updateCharacters: function(player, name) {
       if (player === 'user') {
         this.userChar = name;
+        this.opponentsArr.splice(this.opponentsArr[this.userChar], 1);
         this.userCharObj = this.characters[name];
       }
 
       if (player === 'opponent') {
         this.opponentChar = name;
+        this.opponentsArr.splice(this.opponentsArr[this.opponentChar], 1);
         this.opponentCharObj = this.characters[name];
+        console.log(this.opponentsArr);
       }
     },
 
@@ -171,6 +175,11 @@ $(document).ready(function() {
     // player "fight" audio
     playAudioFight: function() {
       var audio = new Audio('assets/audio/fight.wav');
+      audio.play();
+    },
+
+    playAudioWin: function(player) {
+      var audio = new Audio("assets/audio/" + player + "Wins.wav");
       audio.play();
     },
 
@@ -340,22 +349,26 @@ $(document).ready(function() {
     // animate user's fighter and opponent's health bar with a parameter that checks for if the user has won or not
     animateUserFighter: function(check) {
       var th = $('#p1');
-      $(th).animate({ left: '40%' }, 900, function () {
+      $(th).animate({ left: '40%' }, 730, function () {
         // play audio after character hits the other character
         var audio = new Audio('assets/audio/mk2-100.wav');
         audio.play();
 
         // update stats for opponent
         mortalKombat.updateStats('#opponentHealth', mortalKombat.oppHealthBarWidth, mortalKombat.opponentCharObj.health, mortalKombat.oppAfterWidth);
+        mortalKombat.displayDamage('.opponentArea', 'p2', mortalKombat.userCharObj.attack * (mortalKombat.turnCounter - 1));
       });
 
       // move user character back to original position
-      $(th).animate({ left: '0px' }, 900, function () {
+      $(th).animate({ left: '0px' }, 730, function () {
         // if argument "check" is true
         if (check) {
           // re-enable attack button
           $('#attack').prop('disabled', false);
-          console.log('You win')
+          if (mortalKombat.opponentsArr.length !== 0) {
+            // mortalKombat.initializeCharacters();
+          }
+          
         // if not, animate opponent fighter
         } else {
           mortalKombat.animateOppFighter();
@@ -367,13 +380,16 @@ $(document).ready(function() {
     animateOppFighter: function() {
       var th2 = $('#p2');
       // after user character returns, move opponent character to hit user character
-      $(th2).animate({ right: '40%' }, 900, function () {
+      $(th2).animate({ right: '40%' }, 730, function () {
         var audio = new Audio('assets/audio/mk2-100.wav');
         audio.play();
+
         mortalKombat.updateStats('#userHealth', mortalKombat.userHealthBarWidth, mortalKombat.userCharObj.health, mortalKombat.userAfterWidth);
+
+        mortalKombat.displayDamage('.userArea', 'p1', mortalKombat.opponentCharObj.counterAttack);
       });
       // move opponent character back to original position
-      $(th2).animate({ right: '0px' }, 900, function() {
+      $(th2).animate({ right: '0px' }, 730, function() {
 
         mortalKombat.checkGame();
         // re-enable attack button
@@ -381,12 +397,30 @@ $(document).ready(function() {
       });
     },
 
+    // displays amount of health taken away after damage inflicted
+    displayDamage: function(selector, player, damage) {
+      var damage = $("<div class='damage' id='damage-" + player + "'><span>-" + damage + "</span> HP</div>")
 
-    // checks the game to determine health of characters and displays animations/sound depending on state of characters' health
+      damage.animateCss('bounceIn', function() {
+        $('#damage-' + player).remove();
+      })
+      $(selector).append(damage);
+    },
+
+
+    // checks the game to determine health of characters and how to proceed
     checkGame: function() {
-      // if user's next attack will be greater or equal to opponent's hp
-      if (mortalKombat.userCharObj.attack * mortalKombat.turnCounter >= mortalKombat.opponentCharObj.health) {
+      // if user's next attack will be greater or equal to opponent's hp and user's hp is greater than 0
+      if (this.userCharObj.attack * this.turnCounter >= this.opponentCharObj.health && this.userCharObj.health > 0) {
         this.playFinishHim();
+
+        // if user lost all HP
+      } else if (this.userCharObj.health <= 0) {
+        this.playAudioWin(this.opponentChar);
+        setTimeout(function() {
+          var audio = new Audio('assets/audio/isBest.wav');
+          audio.play();
+        }, 2500)
       }
     },
 
@@ -493,7 +527,7 @@ $(document).ready(function() {
 
     backgroundSong.play();
 
-    mortalKombat.initializeCharacters();
+    mortalKombat.initializeOpponentsArr();
   }
 
   function hideInsert(el) {

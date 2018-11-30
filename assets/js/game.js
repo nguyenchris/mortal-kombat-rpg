@@ -7,7 +7,7 @@ $(document).ready(function() {
   backgroundSong.volume = 0.4;
   backgroundSong.preload = 'auto';
 
-  // initalize game object
+  // initialize game object
   mortalKombat = {
     characters: {
       subZero: {
@@ -298,20 +298,23 @@ $(document).ready(function() {
         .append(opponentCharName)
         .append(opponentName)
         .append(opponentHealthBar);
-
-      // render character fighters
     },
 
+    // logic to game after user clicks the attack button
     startGamePlay: function() {
 
       // click event listener for fight button
       $('#attack').on('click', function() {
+        // disable attack button to prevent multiple clicks during animations
+        $(this).prop('disabled', true);
+
         var userAttack = mortalKombat.userCharObj.attack * mortalKombat.turnCounter;
 
-        // calculate percent damage from total health in order to subtract from bar width's percent width
+        // calculate percent damage from total health in order to subtract from health bar's percent width
         var userDamage = Math.round(mortalKombat.opponentCharObj.counterAttack / mortalKombat.userCharObj.origHealth * 100)
         var oppDamage = Math.round(userAttack / mortalKombat.opponentCharObj.origHealth * 100)
 
+        // set width of health bar in order to pass through to updateStats method and keep the health bar at this width depending on amount of damage inflicted
         mortalKombat.userAfterWidth = mortalKombat.userHealthBarWidth - userDamage
         mortalKombat.oppAfterWidth = mortalKombat.oppHealthBarWidth - oppDamage
 
@@ -322,6 +325,7 @@ $(document).ready(function() {
           // if it is, animate only user fighter and restart game
           mortalKombat.animateUserFighter(true);
         } else {
+          // if not, subtract health from user and opponent based on attack
           mortalKombat.opponentCharObj.health -= userAttack;
         
           mortalKombat.userCharObj.health -= mortalKombat.opponentCharObj.counterAttack;
@@ -330,42 +334,27 @@ $(document).ready(function() {
         }
 
         mortalKombat.turnCounter++;
-        
-        // // move user character to hit opponent
-        // $(th).animate({ left: '40%' }, 900, function() {
-        //   // play audio after character hits the other character
-        //   var audio = new Audio('assets/audio/mk2-100.wav');
-        //   audio.play();
-        //   // update healthbar
-        // });
-
-        // // move user character back to original position
-        // $(th).animate({ left: '0px' }, 900, function() {
-        //   // after user character returns, move opponent character to hit user character
-        //   $(th2).animate({ right: '40%' }, 900, function() {
-        //     var audio = new Audio('assets/audio/mk2-100.wav');
-        //     audio.play();
-        //   });
-        //   // move opponent character back to original position
-        //   $(th2).animate({ right: '0px' }, 900);
-        // });
       });
     },
 
-    // animate user's fighter and check if user has won. If user has won, the opponent will not move 
+    // animate user's fighter and opponent's health bar with a parameter that checks for if the user has won or not
     animateUserFighter: function(check) {
       var th = $('#p1');
       $(th).animate({ left: '40%' }, 900, function () {
         // play audio after character hits the other character
         var audio = new Audio('assets/audio/mk2-100.wav');
         audio.play();
+
+        // update stats for opponent
         mortalKombat.updateStats('#opponentHealth', mortalKombat.oppHealthBarWidth, mortalKombat.opponentCharObj.health, mortalKombat.oppAfterWidth);
       });
 
       // move user character back to original position
       $(th).animate({ left: '0px' }, 900, function () {
-        //check if user won
+        // if argument "check" is true
         if (check) {
+          // re-enable attack button
+          $('#attack').prop('disabled', false);
           console.log('You win')
         // if not, animate opponent fighter
         } else {
@@ -374,6 +363,7 @@ $(document).ready(function() {
       });
     },
 
+    // render opponent fighter animation and also users health bar
     animateOppFighter: function() {
       var th2 = $('#p2');
       // after user character returns, move opponent character to hit user character
@@ -383,8 +373,37 @@ $(document).ready(function() {
         mortalKombat.updateStats('#userHealth', mortalKombat.userHealthBarWidth, mortalKombat.userCharObj.health, mortalKombat.userAfterWidth);
       });
       // move opponent character back to original position
-      $(th2).animate({ right: '0px' }, 900);
+      $(th2).animate({ right: '0px' }, 900, function() {
 
+        mortalKombat.checkGame();
+        // re-enable attack button
+        $('#attack').prop('disabled', false);
+      });
+    },
+
+
+    // checks the game to determine health of characters and displays animations/sound depending on state of characters' health
+    checkGame: function() {
+      // if user's next attack will be greater or equal to opponent's hp
+      if (mortalKombat.userCharObj.attack * mortalKombat.turnCounter >= mortalKombat.opponentCharObj.health) {
+        this.playFinishHim();
+      }
+    },
+
+    // displays the finish him image on screen and plays finish him audio
+    playFinishHim: function() {
+      var finishHim = $("<img alt='Finish Him'>").attr(
+        'src',
+        'assets/images/finishhim.gif'
+      );
+      finishHim.animateCss('zoomIn', function() {
+        setTimeout(function() {
+          finishHim.hide();
+        }, 400)
+      })
+      $('.finish-him').append(finishHim);
+      var audio = new Audio('assets/audio/finishhim.wav');
+      audio.play();
     },
 
     // will update page to show HP and render health bar to reflect HP
@@ -479,10 +498,5 @@ $(document).ready(function() {
 
   function hideInsert(el) {
     el.hide();
-
-    // insert selected character and display in fight area for user
-    // var newDiv = $('<div class="p1"><img src="assets/images/scorpion.gif" id="p1" alt=""></div>')
-    // newDiv.animateCss('fadeIn');
-    // $('.userArea').append(newDiv);
   }
 });

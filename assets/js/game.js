@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   // show splash page once document is ready
   $('.splash').show();
 
@@ -68,7 +68,7 @@ $(document).ready(function() {
     oppAfterWidth: null,
 
     // insert all characters into opponents Array
-    initializeOpponentsArr: function() {
+    initializeOpponentsArr: function () {
       for (var key in this.characters) {
         this.opponentsArr.push(key);
       }
@@ -76,7 +76,7 @@ $(document).ready(function() {
     },
 
     // display character area for selection
-    initializeCharacters: function() {
+    initializeCharacters: function () {
       backgroundSong.play();
 
       this.oppHealthBarWidth = 100;
@@ -87,7 +87,7 @@ $(document).ready(function() {
       if (this.userChar.length > 0 && this.opponentsArr.length > 1) {
         $('.directions').text('Not Bad, But Can You Beat The Next Opponent?')
       } else if (this.opponentsArr.length === 1) {
-        $('.directions').text('DO YOU HAVE WHAT IT TAKES TO BEAT ' + this.opponentsArr[0] + '?' )
+        $('.directions').text('DO YOU HAVE WHAT IT TAKES TO BEAT ' + this.opponentsArr[0] + '?')
       }
 
       if (this.userChar.length === 0) {
@@ -95,23 +95,23 @@ $(document).ready(function() {
         $('.music-directions').append(directionsMusic);
       }
 
-        for (i = 0; i < this.opponentsArr.length; i++) {
-          var charDiv = $("<div class='playerChar' data-name='" + this.opponentsArr[i] + "'>");
-          var charName = $("<div class='character-name'>").text(this.characters[this.opponentsArr[i]].name);
-          var charImage = $("<img alt='image'>").attr('src', this.characters[this.opponentsArr[i]].charImg);
-          var charHealth = $("<div class='character-health'>").text('HP: ' + this.characters[this.opponentsArr[i]].health);
+      for (i = 0; i < this.opponentsArr.length; i++) {
+        var charDiv = $("<div class='playerChar' data-name='" + this.opponentsArr[i] + "'>");
+        var charName = $("<div class='character-name'>").text(this.characters[this.opponentsArr[i]].name);
+        var charImage = $("<img alt='image'>").attr('src', this.characters[this.opponentsArr[i]].charImg);
+        var charHealth = $("<div class='character-health'>").text('HP: ' + this.characters[this.opponentsArr[i]].health);
 
-            charDiv
-            .append(charName)
-            .append(charImage)
-            .append(charHealth);
-          charDiv.animateCss('zoomIn');
-          $('.playerMenu').append(charDiv);
-        }
-        this.selectChar();
+        charDiv
+          .append(charName)
+          .append(charImage)
+          .append(charHealth);
+        charDiv.animateCss('zoomIn');
+        $('.playerMenu').append(charDiv);
+      }
+      this.selectChar();
     },
 
-    gameStart: function() {
+    gameStart: function () {
       // Check if usercharacter or opponent has been chosen
       if (this.userChar.length === 0 || this.opponentChar.length === 0) {
         // if not, select character
@@ -124,17 +124,17 @@ $(document).ready(function() {
     },
 
     // determines which characters are selected for user and opponent. Whichever is selected will be assigned to the properties userChar and opponentChar
-    selectChar: function() {
+    selectChar: function () {
       // hover animation effect over character options
-      $('.playerChar').mouseenter(function() {
+      $('.playerChar').mouseenter(function () {
         $(this).animateCss('pulse');
         $(this).css('animation-duration', '.8s');
-        $(this).mouseleave(function() {
+        $(this).mouseleave(function () {
           $('.playerChar').removeClass('animated pulse');
         });
       });
 
-      $('.playerChar').on('click', function() {
+      $('.playerChar').on('click', function () {
         var th = $(this);
 
         // if there is not a character selected for the user..
@@ -142,7 +142,7 @@ $(document).ready(function() {
           // assign chosen character to user
           mortalKombat.updateCharacters('user', th.attr('data-name'));
 
-          $(th).animateCss('zoomOutLeft', function() {
+          $(th).animateCss('zoomOutLeft', function () {
             mortalKombat.removeElement(th);
             $('.directions').text('Select your Opponent');
           });
@@ -150,7 +150,7 @@ $(document).ready(function() {
           // if user has already chosen, the selection for opponent is assigned to opponentChar
           mortalKombat.updateCharacters('opponent', th.attr('data-name'));
 
-          $(th).animateCss('zoomOutRight', function() {
+          $(th).animateCss('zoomOutRight', function () {
             mortalKombat.removeElement(th);
             mortalKombat.gameStart();
           });
@@ -160,7 +160,7 @@ $(document).ready(function() {
 
     // update the selected characters for user and opponent and assign to properties
     // also play sound for selected character
-    updateCharacters: function(player, name) {
+    updateCharacters: function (player, name) {
       var index = this.opponentsArr.indexOf(name)
 
       if (player === 'user') {
@@ -177,12 +177,25 @@ $(document).ready(function() {
     },
 
     // function to remove any element and its child elements depending on what element is passed in as an argument
-    removeElement: function(el) {
+    removeElement: function (el) {
       el.remove();
     },
 
+    // play random grunt noise
+    playAudioGrunt: function () {
+      var randomNum = Math.floor(Math.random() * 6);
+      var audio = new Audio("assets/audio/fx" + randomNum + ".wav");
+      audio.play();
+    },
+
+    playAudioHit: function () {
+      var randomNum = Math.floor(Math.random() * 7);
+      var audio = new Audio("assets/audio/hit" + randomNum + ".wav");
+      audio.play();
+    },
+
     // play audio of the character's name
-    playAudioName: function(name) {
+    playAudioName: function (name) {
       // var nameAudio = this.characters[name].audio[0];
       var audio = new Audio(name);
       audio.play();
@@ -190,18 +203,18 @@ $(document).ready(function() {
     },
 
     // player "fight" audio
-    playAudioFight: function() {
+    playAudioFight: function () {
       var audio = new Audio('assets/audio/fight.wav');
       audio.play();
     },
 
-    playAudioWin: function(player) {
+    playAudioWin: function (player) {
       var audio = new Audio("assets/audio/" + player + "Wins.wav");
       audio.play();
     },
 
     //  create character versus screen depending on character selections for both user and opponent
-    renderCharacterVersus: function() {
+    renderCharacterVersus: function () {
       var vs = $("<img alt='image' class='versus'>").attr(
         'src',
         'assets/images/vs.png'
@@ -213,17 +226,17 @@ $(document).ready(function() {
         'src',
         this.userCharObj.charImg
       );
-      newImgUser.animateCss('slideInLeft', function() {
+      newImgUser.animateCss('slideInLeft', function () {
         var newImgOpp = $("<img alt='image' class='versus'>").attr(
           'src',
           mortalKombat.opponentCharObj.charImg
         );
-        newImgOpp.animateCss('slideInRight', function() {
+        newImgOpp.animateCss('slideInRight', function () {
           var fight = $("<img alt='image' class='versus'>").attr(
             'src',
             'assets/images/fight.png'
           );
-          fight.animateCss('zoomIn', function() {
+          fight.animateCss('zoomIn', function () {
             // after animation ends for the "fight" logo, render stats bar
             mortalKombat.renderStats();
           });
@@ -241,7 +254,7 @@ $(document).ready(function() {
 
     // render the selected user and opponent characters onto screen
     // also render attack button
-    renderCharacterFighters: function() {
+    renderCharacterFighters: function () {
       // display user selecter fighter
       var userFighter = $("<img alt='image' id='p1'>").attr(
         'src',
@@ -262,17 +275,17 @@ $(document).ready(function() {
     },
 
     // creates fight button and animates characters
-    renderFightBtn: function() {
+    renderFightBtn: function () {
       // create attack button
       var button = $('<button id="attack">');
       button.text('Attack');
       $('.userArea').append(button);
-      
+
       this.startGamePlay();
     },
 
     // render the stats info above fight area to display health bar, logo, name, HP total
-    renderStats: function() {
+    renderStats: function () {
       $('.versus').remove();
 
       //render mortal kombat logo in stats bar
@@ -301,7 +314,7 @@ $(document).ready(function() {
         .append(userCharName)
         .append(userName)
         .append(userHealthBar);
-        $('#userHealth').css('width', this.userHealthBarWidth + '%');
+      $('#userHealth').css('width', this.userHealthBarWidth + '%');
 
       // render opponent health bar
       var opponentCharName = $(
@@ -318,7 +331,7 @@ $(document).ready(function() {
       ).text(this.opponentCharObj.health);
       // append inner health stat bar to entire health bar
       opponentHealthBar.append(opponentHealthStat);
-      opponentHealthBar.animateCss('fadeInRight', function() {
+      opponentHealthBar.animateCss('fadeInRight', function () {
         mortalKombat.renderCharacterFighters();
       });
       // append all opponent stat elements
@@ -329,10 +342,10 @@ $(document).ready(function() {
     },
 
     // logic to game after user clicks the attack button
-    startGamePlay: function() {
+    startGamePlay: function () {
 
       // click event listener for fight button
-      $('#attack').on('click', function() {
+      $('#attack').on('click', function () {
         // disable attack button to prevent multiple clicks during animations
         $(this).prop('disabled', true);
 
@@ -355,7 +368,7 @@ $(document).ready(function() {
         } else {
           // if not, subtract health from user and opponent based on attack
           mortalKombat.opponentCharObj.health -= userAttack;
-        
+
           mortalKombat.userCharObj.health -= mortalKombat.opponentCharObj.counterAttack;
 
           mortalKombat.animateUserFighter(false);
@@ -366,12 +379,13 @@ $(document).ready(function() {
     },
 
     // animate user's fighter and opponent's health bar with a parameter that checks for if the user has won or not
-    animateUserFighter: function(check) {
+    animateUserFighter: function (check) {
       var th = $('#p1');
-      $(th).animate({ left: '40%' }, 730, function () {
+      $(th).animate({
+        left: '40%'
+      }, 730, function () {
         // play audio after character hits the other character
-        var audio = new Audio('assets/audio/mk2-100.wav');
-        audio.play();
+        mortalKombat.playAudioHit();
 
         // update stats for opponent
         mortalKombat.updateStats('#opponentHealth', mortalKombat.oppHealthBarWidth, mortalKombat.opponentCharObj.health, mortalKombat.oppAfterWidth);
@@ -379,12 +393,14 @@ $(document).ready(function() {
       });
 
       // move user character back to original position
-      $(th).animate({ left: '0px' }, 730, function () {
+      $(th).animate({
+        left: '0px'
+      }, 730, function () {
         // if argument "check" is true
         if (check) {
           mortalKombat.nextRound(mortalKombat.userCharObj.name, mortalKombat.userChar, '#p2');
-          
-        // if not, animate opponent fighter
+
+          // if not, animate opponent fighter
         } else {
           mortalKombat.animateOppFighter();
         }
@@ -393,19 +409,23 @@ $(document).ready(function() {
 
 
     // render opponent fighter animation and also users health bar
-    animateOppFighter: function() {
+    animateOppFighter: function () {
       var th2 = $('#p2');
       // after user character returns, move opponent character to hit user character
-      $(th2).animate({ right: '40%' }, 730, function () {
-        var audio = new Audio('assets/audio/mk2-100.wav');
-        audio.play();
+      $(th2).animate({
+        right: '40%'
+      }, 730, function () {
+
+        mortalKombat.playAudioGrunt();
 
         mortalKombat.updateStats('#userHealth', mortalKombat.userHealthBarWidth, mortalKombat.userCharObj.health, mortalKombat.userAfterWidth);
 
         mortalKombat.displayDamage('.userArea', 'p1', mortalKombat.opponentCharObj.counterAttack);
       });
       // move opponent character back to original position
-      $(th2).animate({ right: '0px' }, 730, function() {
+      $(th2).animate({
+        right: '0px'
+      }, 730, function () {
 
         mortalKombat.checkGame();
 
@@ -415,10 +435,10 @@ $(document).ready(function() {
     },
 
     // displays amount of health taken away after damage inflicted
-    displayDamage: function(selector, player, damage) {
+    displayDamage: function (selector, player, damage) {
       var pointsOff = $("<div class='damage' id='damage-" + player + "'><span>-" + damage + "</span> HP</div>")
 
-      pointsOff.animateCss('bounceIn', function() {
+      pointsOff.animateCss('bounceIn', function () {
         $('#damage-' + player).remove();
       })
       $(selector).append(pointsOff);
@@ -426,7 +446,7 @@ $(document).ready(function() {
 
 
     // checks the game to determine health of characters and how to proceed
-    checkGame: function() {
+    checkGame: function () {
       // if user's next attack will be greater or equal to opponent's hp and user's hp is greater than 0
       if (this.userCharObj.attack * this.turnCounter >= this.opponentCharObj.health && this.userCharObj.health > 0) {
         this.playFinishHim();
@@ -439,19 +459,19 @@ $(document).ready(function() {
 
 
     // determines who won the round and displays page to proceed further
-    nextRound: function(winner, name, loser) {
+    nextRound: function (winner, name, loser) {
       var winnerDisplay = $("<div class='flash' id='winner'><span>" + winner + "</span><p>Wins</p></div>")
-      var fatality = $("<img class='zoomIn' id='fatality' alt='Finish Him'>").attr('src','assets/images/fatality.png');
+      var fatality = $("<img class='zoomIn' id='fatality' alt='Finish Him'>").attr('src', 'assets/images/fatality.png');
 
       winnerDisplay.animateCss('flash');
 
-      fatality.animateCss('zoomIn', function() {
+      fatality.animateCss('zoomIn', function () {
         $('#fatality').hide();
         $('.roundEnd').append(winnerDisplay);
         mortalKombat.playAudioWin(name);
       });
 
-      $(loser).animateCss('fadeOut', function() {
+      $(loser).animateCss('fadeOut', function () {
         if (loser === '#p1') {
           $('.userArea').empty();
         } else {
@@ -459,18 +479,18 @@ $(document).ready(function() {
         }
       })
 
-      
-      
 
-      setTimeout(function() {
+
+
+      setTimeout(function () {
         $('.roundEnd').append(fatality);
 
         var audio = new Audio('assets/audio/fatality.wav');
         audio.play();
       }, 300)
-      
 
-      setTimeout(function() {
+
+      setTimeout(function () {
         $('.userArea, .opponentArea, .roundEnd, #logo, .userStats, .opponentStats').empty();
 
         if (name === mortalKombat.userChar && mortalKombat.opponentsArr.length === 0) {
@@ -485,13 +505,13 @@ $(document).ready(function() {
     },
 
     // displays the finish him image on screen and plays finish him audio
-    playFinishHim: function() {
+    playFinishHim: function () {
       var finishHim = $("<img alt='Finish Him'>").attr(
         'src',
         'assets/images/finishhim.gif'
       );
-      finishHim.animateCss('zoomIn', function() {
-        setTimeout(function() {
+      finishHim.animateCss('zoomIn', function () {
+        setTimeout(function () {
           finishHim.hide();
         }, 400)
       })
@@ -501,7 +521,7 @@ $(document).ready(function() {
     },
 
     // will update page to show HP and render health bar to reflect HP
-    updateStats: function(selector, barWidth, hP, afterDamageWidth) {
+    updateStats: function (selector, barWidth, hP, afterDamageWidth) {
       var elem = $(selector);
       var id = setInterval(frame, 29);
       // function to move health bar depending on damage inflicted
@@ -514,7 +534,7 @@ $(document).ready(function() {
 
           if (selector == '#userHealth') {
             mortalKombat.userHealthBarWidth = afterDamageWidth;
-          } 
+          }
           if (selector == '#opponentHealth') {
             mortalKombat.oppHealthBarWidth = afterDamageWidth;
           }
@@ -530,7 +550,7 @@ $(document).ready(function() {
     },
 
     // restart game, variables, and display different text depending on result
-    restartGame: function(result) {
+    restartGame: function (result) {
       this.userChar = '';
       this.userCharObj = {};
       this.opponentsArr = [];
@@ -548,10 +568,9 @@ $(document).ready(function() {
 
       var over1 = $("<p id='over1'></p>")
       var over2 = $("<p id='over2'></p>")
-      
+
       over1.animateCss('slideInDown')
-      over2.animateCss('fadeIn', function() {
-      })
+      over2.animateCss('fadeIn', function () {})
 
 
       if (result) {
@@ -567,13 +586,16 @@ $(document).ready(function() {
       $('.game-over').append(over1)
       $('.game-over').append(over2);
 
-      setTimeout(function() {
+      setTimeout(function () {
         $('.game-over').empty();
         $('.game-page').hide();
         $('.splash').show();
-        $('.splash-btn').css({'height': '45px', 'width': '85px'})
+        $('.splash-btn').css({
+          'height': '45px',
+          'width': '85px'
+        })
         $('.splash-btn').text('Play Again')
-      }, 6200)
+      }, 5100)
 
     }
   };
@@ -584,8 +606,8 @@ $(document).ready(function() {
   // extend jQuery and set animateCss function in order to easily add animateCss classes after events
   // also will add functionality to where jquery will do something after an animation ends when setting a callback function
   $.fn.extend({
-    animateCss: function(animationName, callback) {
-      var animationEnd = (function(el) {
+    animateCss: function (animationName, callback) {
+      var animationEnd = (function (el) {
         var animations = {
           animation: 'animationend',
           OAnimation: 'oAnimationEnd',
@@ -600,7 +622,7 @@ $(document).ready(function() {
         }
       })(document.createElement('div'));
 
-      this.addClass('animated ' + animationName).one(animationEnd, function() {
+      this.addClass('animated ' + animationName).one(animationEnd, function () {
         $(this).removeClass('animated ' + animationName);
 
         if (typeof callback === 'function') callback();
@@ -611,7 +633,7 @@ $(document).ready(function() {
   });
 
   // click event listener for play button to display animations and remove splash page
-  $('.splash-btn').on('click', function() {
+  $('.splash-btn').on('click', function () {
     // display animations
     $(this).css({
       'animation-delay': '0s',
@@ -625,7 +647,7 @@ $(document).ready(function() {
 
     $(this).animateCss('zoomOut');
 
-    $('.splash-img').animateCss('fadeOutUp', function() {
+    $('.splash-img').animateCss('fadeOutUp', function () {
       // hide entire splash page
       hideSplash('.splash');
     });

@@ -8,7 +8,7 @@ This web-browser based game was primarly focused on dynamically updating the DOM
 
 It features a player selection menu where--depending on the user's selection of choice as well as the selection of the opponent--it will display a video-game-like experience. In order to attack, the user would click on the attack button and then experience dynamically changing elements on the UI. Each time the user attacks, their character's Attack Power increases by its base Attack Power.  The defender will then counter attack with the same attack power for each turn. Each character has different attack and counter attack powers. After the user beats a defender, they will move on and select the next opponent--while retaining the same health points from the previous round.
 
-NOTE: This game is optimized for Google Chrome Browser only.
+NOTE: Optimized for Google Chrome Browser only.
 
 ## Preview
-![Gameplay](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Gameplay Preview")
+![Gameplay](assets/images/preview.png)

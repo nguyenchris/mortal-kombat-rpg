@@ -193,10 +193,8 @@ $(document).ready(function () {
 
     // play audio of the character's name
     playAudioName: function (name) {
-      // var nameAudio = this.characters[name].audio[0];
       var audio = new Audio(name);
       audio.play();
-      // backgroundSong.play();
     },
 
     // player "fight" audio
@@ -432,7 +430,7 @@ $(document).ready(function () {
 
         mortalKombat.displayDamage('.userArea', 'p1', mortalKombat.opponentCharObj.counterAttack);
       });
-      
+
       // move opponent character back to original position
       $(th2).animate({
         right: '0px'
@@ -476,10 +474,12 @@ $(document).ready(function () {
 
       winnerDisplay.animateCss('flash');
 
+      var lowerCaseName = name.toLowerCase();
+
       fatality.animateCss('zoomIn', function () {
         $('#fatality').hide();
         $('.roundEnd').append(winnerDisplay);
-        mortalKombat.playAudioWin(name);
+        mortalKombat.playAudioWin(lowerCaseName);
       });
 
       $(loser).animateCss('fadeOut', function () {

@@ -101,10 +101,7 @@ $(document).ready(function () {
         var charImage = $("<img alt='image'>").attr('src', this.characters[this.opponentsArr[i]].charImg);
         var charHealth = $("<div class='character-health'>").text('HP: ' + this.characters[this.opponentsArr[i]].health);
 
-        charDiv
-          .append(charName)
-          .append(charImage)
-          .append(charHealth);
+        charDiv.append(charName).append(charImage).append(charHealth);
         charDiv.animateCss('zoomIn');
         $('.playerMenu').append(charDiv);
       }
@@ -226,16 +223,19 @@ $(document).ready(function () {
         'src',
         this.userCharObj.charImg
       );
+
       newImgUser.animateCss('slideInLeft', function () {
         var newImgOpp = $("<img alt='image' class='versus'>").attr(
           'src',
           mortalKombat.opponentCharObj.charImg
         );
+
         newImgOpp.animateCss('slideInRight', function () {
           var fight = $("<img alt='image' class='versus'>").attr(
             'src',
             'assets/images/fight.png'
           );
+
           fight.animateCss('zoomIn', function () {
             // after animation ends for the "fight" logo, render stats bar
             mortalKombat.renderStats();
@@ -245,9 +245,11 @@ $(document).ready(function () {
           $('.fight').append(fight);
           mortalKombat.playAudioFight();
         });
+
         $('.vsP2').append(newImgOpp);
         mortalKombat.playAudioName(mortalKombat.opponentCharObj.audio[0]);
       });
+
       $('.vsP1').append(newImgUser);
       this.playAudioName(this.userCharObj.audio[0]);
     },
@@ -260,6 +262,7 @@ $(document).ready(function () {
         'src',
         this.userCharObj.charGif
       );
+
       userFighter.animateCss('fadeIn');
       $('.userArea').append(userFighter);
 
@@ -268,6 +271,7 @@ $(document).ready(function () {
         'src',
         this.opponentCharObj.charGif
       );
+
       opponentFighter.animateCss('fadeIn');
       $('.opponentArea').append(opponentFighter);
 
@@ -293,6 +297,7 @@ $(document).ready(function () {
         'src',
         'assets/images/mortalkombatLogo.png'
       );
+
       logo.animateCss('slideInDown');
       $('#logo').append(logo);
 
@@ -306,9 +311,11 @@ $(document).ready(function () {
       var userHealthStat = $("<div class='stats' id='userHealth'>").text(
         this.userCharObj.health
       );
+
       // append inner health stat bar to entire health bar
       userHealthBar.append(userHealthStat);
       userHealthBar.animateCss('fadeInLeft');
+
       // append all user stat elements
       $('.userStats')
         .append(userCharName)
@@ -329,11 +336,13 @@ $(document).ready(function () {
       var opponentHealthStat = $(
         "<div class='stats' id='opponentHealth'>"
       ).text(this.opponentCharObj.health);
+
       // append inner health stat bar to entire health bar
       opponentHealthBar.append(opponentHealthStat);
       opponentHealthBar.animateCss('fadeInRight', function () {
         mortalKombat.renderCharacterFighters();
       });
+
       // append all opponent stat elements
       $('.opponentStats')
         .append(opponentCharName)
@@ -412,6 +421,7 @@ $(document).ready(function () {
     animateOppFighter: function () {
       var th2 = $('#p2');
       // after user character returns, move opponent character to hit user character
+
       $(th2).animate({
         right: '40%'
       }, 730, function () {
@@ -422,6 +432,7 @@ $(document).ready(function () {
 
         mortalKombat.displayDamage('.userArea', 'p1', mortalKombat.opponentCharObj.counterAttack);
       });
+      
       // move opponent character back to original position
       $(th2).animate({
         right: '0px'

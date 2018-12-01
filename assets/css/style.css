@@ -82,12 +82,12 @@ html body {
   text-shadow: 3px 4px 1px black;
   /* animation-iteration-count: infinite; */
   animation-duration: 1.3s;
-  transition: ease-in-out .5s;
+  transition: ease-in-out .35s;
   font-size: 21px;
 }
 
 .playerChar:hover {
-  filter: brightness(200%);
+  filter: brightness(220%);
 }
 
 .playerChar img {
@@ -164,7 +164,7 @@ html body {
 
 #logo img {
   position: absolute;
-  top: 85px;
+  top: 40px;
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -240,7 +240,7 @@ html body {
   right: 100px;
   top: 148px;
   letter-spacing: 1.5px;
-  text-shadow: 4px 5px 1px black;
+  text-shadow: 3px 4px 1px black;
 }
 
 #opponentCharName {
@@ -248,7 +248,7 @@ html body {
   font-size: 30px;
   right: 100px;
   top: 85px;
-  text-shadow: 4px 5px 1px black;
+  text-shadow: 3px 4px 1px black;
 }
 
 #opponentHealth{
@@ -309,13 +309,6 @@ html body {
 /* Fighter Gifs */
 
 #p1 {
-	/* right: 10%;  */
-	/* -webkit-filter: hue-rotate(90deg) contrast(1.1); */
-	/* filter: hue-rotate(90deg) contrast(1.1); */
-	/* -moz-transform: scaleX(-1); 
-	-o-transform: scaleX(-1);
-  -webkit-transform: scaleX(-1);
-  transform: scaleX(-1); */
   margin-top: 25%;
   height: 380px; 
   position: relative;
@@ -325,12 +318,7 @@ html body {
 } 
 
 #p2 {
-	/* right:10%;  */
-	/* -webkit-filter: hue-rotate(90deg) contrast(1.1); */
-	/* filter: hue-rotate(90deg) contrast(1.1); */
-	/* -moz-transform: scaleX(-1); 
-	-o-transform: scaleX(-1);
-  -webkit-transform: scaleX(-1); */
+
   margin-top: 25%;
   transform: scaleX(-1);
   height: 380px; 
@@ -339,6 +327,47 @@ html body {
   display: inline-block;
   margin-right: 20%;
 } 
+
+.roundEnd {
+  position: relative;
+}
+
+#winner {
+  color: rgb(202, 10, 10);
+  text-align: center;
+  font-size: 56px;
+  width: 420px;
+  position: absolute;
+  top: 260px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: bold;
+  letter-spacing: 5px;
+  text-shadow: 1px 3px 1px black;
+  animation-duration: 2.2s;
+}
+
+#winner p {
+  margin: 0;
+  color: rgb(202, 10, 10);
+}
+
+#winner span {
+  color: white;
+}
+
+#fatality {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  height: 150px;
+  top: 150px;
+  animation-duration: 1.75s;
+}
+
 
 
 

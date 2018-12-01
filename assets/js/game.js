@@ -6,6 +6,7 @@ $(document).ready(function() {
   var backgroundSong = new Audio('assets/audio/themesong.mp3');
   backgroundSong.volume = 0.4;
   backgroundSong.preload = 'auto';
+  backgroundSong.loop = true;
 
   // initialize game object
   mortalKombat = {
@@ -22,7 +23,7 @@ $(document).ready(function() {
       },
       scorpion: {
         name: 'Scorpion',
-        health: 100,
+        health: 30,
         origHealth: 100,
         attack: 14,
         charImg: 'assets/images/scorpionProf.png',
@@ -62,7 +63,6 @@ $(document).ready(function() {
     opponentChar: '',
     opponentCharObj: {},
     turnCounter: 1,
-    killCounter: 0,
     userHealthBarWidth: 100,
     oppHealthBarWidth: 100,
     userAfterWidth: null,
@@ -78,6 +78,16 @@ $(document).ready(function() {
 
     // display character area for selection
     initializeCharacters: function() {
+      console.log(this.userHealthBarWidth)
+      backgroundSong.play();
+      var directions = $("<div class='directions'>Select Your Fighter</div>")
+      $('.playerMenu').append(directions);
+
+      if (this.userChar.length > 0 && this.opponentsArr.length > 1) {
+        $('.directions').text('Not Bad, But Can You Beat The Next Opponent?')
+      } else if (this.opponentsArr.length === 1) {
+        $('.directions').text('DO YOU HAVE WHAT IT TAKES TO BEAT ' + this.opponentsArr[0] + '?' )
+      }
 
         for (i = 0; i < this.opponentsArr.length; i++) {
           var charDiv = $("<div class='playerChar' data-name='" + this.opponentsArr[i] + "'>");
@@ -145,17 +155,18 @@ $(document).ready(function() {
     // update the selected characters for user and opponent and assign to properties
     // also play sound for selected character
     updateCharacters: function(player, name) {
+      var index = this.opponentsArr.indexOf(name)
+
       if (player === 'user') {
         this.userChar = name;
-        this.opponentsArr.splice(this.opponentsArr[this.userChar], 1);
+        this.opponentsArr.splice(index, 1);
         this.userCharObj = this.characters[name];
       }
 
       if (player === 'opponent') {
         this.opponentChar = name;
-        this.opponentsArr.splice(this.opponentsArr[this.opponentChar], 1);
+        this.opponentsArr.splice(index, 1);
         this.opponentCharObj = this.characters[name];
-        console.log(this.opponentsArr);
       }
     },
 
@@ -272,6 +283,7 @@ $(document).ready(function() {
       );
       var userName = $("<div class='stats' id='userName'>").text('You');
       var userHealthBar = $("<div class='healthBar userHealthBar stats'>");
+      // $('#userHealth').css('width', this.userAfterWidth + '%');
       var userHealthStat = $("<div class='stats' id='userHealth'>").text(
         this.userCharObj.health
       );
@@ -283,6 +295,7 @@ $(document).ready(function() {
         .append(userCharName)
         .append(userName)
         .append(userHealthBar);
+        $('#userHealth').css('width', this.userHealthBarWidth + '%');
 
       // render opponent health bar
       var opponentCharName = $(
@@ -363,11 +376,7 @@ $(document).ready(function() {
       $(th).animate({ left: '0px' }, 730, function () {
         // if argument "check" is true
         if (check) {
-          // re-enable attack button
-          $('#attack').prop('disabled', false);
-          if (mortalKombat.opponentsArr.length !== 0) {
-            // mortalKombat.initializeCharacters();
-          }
+          mortalKombat.nextRound(mortalKombat.userCharObj.name, mortalKombat.userChar, '#p2');
           
         // if not, animate opponent fighter
         } else {
@@ -375,6 +384,7 @@ $(document).ready(function() {
         }
       });
     },
+
 
     // render opponent fighter animation and also users health bar
     animateOppFighter: function() {
@@ -399,12 +409,12 @@ $(document).ready(function() {
 
     // displays amount of health taken away after damage inflicted
     displayDamage: function(selector, player, damage) {
-      var damage = $("<div class='damage' id='damage-" + player + "'><span>-" + damage + "</span> HP</div>")
+      var pointsOff = $("<div class='damage' id='damage-" + player + "'><span>-" + damage + "</span> HP</div>")
 
-      damage.animateCss('bounceIn', function() {
+      pointsOff.animateCss('bounceIn', function() {
         $('#damage-' + player).remove();
       })
-      $(selector).append(damage);
+      $(selector).append(pointsOff);
     },
 
 
@@ -416,12 +426,57 @@ $(document).ready(function() {
 
         // if user lost all HP
       } else if (this.userCharObj.health <= 0) {
-        this.playAudioWin(this.opponentChar);
-        setTimeout(function() {
+        this.nextRound(this.opponentCharObj.name, this.opponentChar, '#p1');
+      }
+    },
+
+
+    // determines who won the round and displays page to proceed further
+    nextRound: function(winner, name, loser) {
+      var winnerDisplay = $("<div class='flash' id='winner'><span>" + winner + "</span><p>Wins</p></div>")
+      var fatality = $("<img class='zoomIn' id='fatality' alt='Finish Him'>").attr('src','assets/images/fatality.png');
+
+      winnerDisplay.animateCss('flash');
+
+      fatality.animateCss('zoomIn', function() {
+        $('#fatality').hide();
+        $('.roundEnd').append(winnerDisplay);
+        mortalKombat.playAudioWin(name);
+      });
+
+      $(loser).animateCss('fadeOut', function() {
+        if (loser === '#p1') {
+          $('.userArea').empty();
+        } else {
+          $('.opponentArea').empty();
+        }
+      })
+
+      
+      
+
+      setTimeout(function() {
+        $('.roundEnd').append(fatality);
+
+        var audio = new Audio('assets/audio/fatality.wav');
+        audio.play();
+      }, 300)
+      
+
+      setTimeout(function() {
+        $('.userArea, .opponentArea, .roundEnd, #logo, .userStats, .opponentStats').empty();
+
+        if (name === mortalKombat.userChar && mortalKombat.opponentsArr.length === 0) {
+          mortalKombat.restartGame();
+        } else if (name === mortalKombat.userChar && mortalKombat.opponentsArr.length !== 0) {
+          mortalKombat.initializeCharacters()
+        } else {
           var audio = new Audio('assets/audio/isBest.wav');
           audio.play();
-        }, 2500)
-      }
+          mortalKombat.restartGame();
+        }
+      }, 5550)
+
     },
 
     // displays the finish him image on screen and plays finish him audio
@@ -443,7 +498,7 @@ $(document).ready(function() {
     // will update page to show HP and render health bar to reflect HP
     updateStats: function(selector, barWidth, hP, afterDamageWidth) {
       var elem = $(selector);
-      var id = setInterval(frame, 70);
+      var id = setInterval(frame, 29);
       // function to move health bar depending on damage inflicted
       function frame() {
         // if width of inner health bar reaches the the amount of current HP in percentage
@@ -460,6 +515,9 @@ $(document).ready(function() {
         } else {
           barWidth--;
           elem.css('width', barWidth + '%');
+          if (hP < 0) {
+            hP = 0;
+          }
           elem.text(hP);
         }
       }

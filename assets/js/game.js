@@ -25,7 +25,7 @@ $(document).ready(function () {
         name: 'Scorpion',
         health: 100,
         origHealth: 100,
-        attack: 14,
+        attack: 15,
         charImg: 'assets/images/scorpionProf.png',
         charGif: 'assets/images/scorpion.gif',
         counterAttack: 5,

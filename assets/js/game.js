@@ -23,7 +23,7 @@ $(document).ready(function() {
       },
       scorpion: {
         name: 'Scorpion',
-        health: 30,
+        health: 100,
         origHealth: 100,
         attack: 14,
         charImg: 'assets/images/scorpionProf.png',
@@ -59,7 +59,6 @@ $(document).ready(function() {
     userChar: '',
     userCharObj: {},
     opponentsArr: [],
-    charactersObj: [],
     opponentChar: '',
     opponentCharObj: {},
     turnCounter: 1,
@@ -78,8 +77,10 @@ $(document).ready(function() {
 
     // display character area for selection
     initializeCharacters: function() {
-      console.log(this.userHealthBarWidth)
       backgroundSong.play();
+
+      this.oppHealthBarWidth = 100;
+
       var directions = $("<div class='directions'>Select Your Fighter</div>")
       $('.playerMenu').append(directions);
 
@@ -87,6 +88,11 @@ $(document).ready(function() {
         $('.directions').text('Not Bad, But Can You Beat The Next Opponent?')
       } else if (this.opponentsArr.length === 1) {
         $('.directions').text('DO YOU HAVE WHAT IT TAKES TO BEAT ' + this.opponentsArr[0] + '?' )
+      }
+
+      if (this.userChar.length === 0) {
+        var directionsMusic = $("<div class='music-directions'>Turn <span>Up</span> Your <span>Volume</span> For <span>Best</span> Experience</div>")
+        $('.music-directions').append(directionsMusic);
       }
 
         for (i = 0; i < this.opponentsArr.length; i++) {
@@ -402,6 +408,7 @@ $(document).ready(function() {
       $(th2).animate({ right: '0px' }, 730, function() {
 
         mortalKombat.checkGame();
+
         // re-enable attack button
         $('#attack').prop('disabled', false);
       });
@@ -467,15 +474,13 @@ $(document).ready(function() {
         $('.userArea, .opponentArea, .roundEnd, #logo, .userStats, .opponentStats').empty();
 
         if (name === mortalKombat.userChar && mortalKombat.opponentsArr.length === 0) {
-          mortalKombat.restartGame();
+          mortalKombat.restartGame(true);
         } else if (name === mortalKombat.userChar && mortalKombat.opponentsArr.length !== 0) {
           mortalKombat.initializeCharacters()
         } else {
-          var audio = new Audio('assets/audio/isBest.wav');
-          audio.play();
-          mortalKombat.restartGame();
+          mortalKombat.restartGame(false);
         }
-      }, 5550)
+      }, 5700)
 
     },
 
@@ -506,6 +511,7 @@ $(document).ready(function() {
           // stop interval of decreasing width of inner health bar
           clearInterval(id);
           elem.css('width', afterDamageWidth + '%');
+
           if (selector == '#userHealth') {
             mortalKombat.userHealthBarWidth = afterDamageWidth;
           } 
@@ -521,6 +527,54 @@ $(document).ready(function() {
           elem.text(hP);
         }
       }
+    },
+
+    // restart game, variables, and display different text depending on result
+    restartGame: function(result) {
+      this.userChar = '';
+      this.userCharObj = {};
+      this.opponentsArr = [];
+      this.opponentChar = '';
+      this.opponentCharObj = {};
+      this.turnCounter = 1;
+      this.userHealthBarWidth = 100;
+      this.oppHealthBarWidth = 100;
+      this.userAfterWidth = null;
+      this.oppAfterWidth = null;
+      this.characters.subZero.health = 120;
+      this.characters.scorpion.health = 100;
+      this.characters.johnnyCage.health = 150;
+      this.characters.raiden.health = 180;
+
+      var over1 = $("<p id='over1'></p>")
+      var over2 = $("<p id='over2'></p>")
+      
+      over1.animateCss('slideInDown')
+      over2.animateCss('fadeIn', function() {
+      })
+
+
+      if (result) {
+        over1.text('VICTORY');
+        over2.text('YOU DID WELL')
+      } else {
+        over1.text('YOU LOSE')
+        over2.text('BETTER LUCK NEXT TIME')
+        var audio = new Audio('assets/audio/isBest.wav');
+        audio.play();
+      }
+
+      $('.game-over').append(over1)
+      $('.game-over').append(over2);
+
+      setTimeout(function() {
+        $('.game-over').empty();
+        $('.game-page').hide();
+        $('.splash').show();
+        $('.splash-btn').css({'height': '45px', 'width': '85px'})
+        $('.splash-btn').text('Play Again')
+      }, 6200)
+
     }
   };
 
@@ -572,23 +626,19 @@ $(document).ready(function() {
     $(this).animateCss('zoomOut');
 
     $('.splash-img').animateCss('fadeOutUp', function() {
-      // remove entire splash page
-      removeSplash('.splash');
+      // hide entire splash page
+      hideSplash('.splash');
     });
   });
 
   // removes splash page and displays game page
-  function removeSplash(el) {
-    $(el).remove();
+  function hideSplash(el) {
+    $(el).hide();
     // show game page
     $('.game-page').show();
 
     backgroundSong.play();
 
     mortalKombat.initializeOpponentsArr();
-  }
-
-  function hideInsert(el) {
-    el.hide();
   }
 });

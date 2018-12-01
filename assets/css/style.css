@@ -24,12 +24,13 @@ html body {
 }
 
 .splash-btn {
+  text-align: center;
   display: block;
-  letter-spacing: 5px;
+  letter-spacing: 3px;
   margin: 0 auto;
   font-size: 18px;
   height: 35px;
-  width: 80px;
+  width: 70px;
   cursor: pointer;
   padding-left: 13px;
   color: rgb(12, 12, 12);
@@ -39,7 +40,7 @@ html body {
               radial-gradient(ellipse at bottom, #9E8C2C, transparent);
   font-weight: bold;
   border-radius: 10px;
-  transition: ease-in-out .6s;
+  transition: ease-in-out .3s;
   animation-duration: 2s;
   animation-delay: .9s;
 }
@@ -98,12 +99,31 @@ html body {
 }
 
 .directions {
-  letter-spacing: 10px;
+  letter-spacing: 7.5px;
   font-weight: bold;
   font-size: 50px;
   margin-bottom: 15px;
   color: rgb(228, 0, 0);
   text-shadow: 6px 4px 2px black;
+}
+
+.music-directions {
+  text-align: center;
+  position: absolute;
+  top: 190px;
+  left: 0px;
+  right: 0px;
+  margin: 0 auto;
+  width: 880px;
+  letter-spacing: 7.5px;
+  font-weight: bold;
+  font-size: 28px;
+  text-shadow: 6px 4px 2px black;
+}
+
+.music-directions span {
+  color: rgb(228, 0, 0);
+  font-size: 40px;
 }
 
 .character-name {
@@ -364,9 +384,44 @@ html body {
   right: 0;
   margin: 0 auto;
   height: 150px;
-  top: 150px;
+  top: 250px;
   animation-duration: 1.75s;
 }
+
+.game-over {
+  text-shadow: 2px 8px 2px black;
+}
+
+
+#over1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 225px;
+  margin: 0 auto;
+  width: 700px;
+  font-size: 100px;
+  color: rgb(202, 10, 10);
+  letter-spacing: 2px;
+  animation-duration: 1.8s;
+  text-align: center;
+}
+
+#over2 {
+  position: absolute;
+  left: 0px;
+  right: 0;
+  top: 375px;
+  margin: 0 auto;
+  width: 800px;
+  font-size: 40px;
+  color: white;
+  letter-spacing: 2px;
+  animation-duration: 1.5s;
+  animation-delay: 1.4s;
+  text-align: center;
+}
+
 
 
 

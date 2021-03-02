@@ -1,6 +1,6 @@
 # MK RPG Game
 
-[Game Page](https://nguyenchris.github.io/unit-4-game/)
+[Game Page](https://nguyenchris.github.io/mortal-kombat-rpg/)
 
 ## Description
 
